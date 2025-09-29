@@ -1,0 +1,22 @@
+{% extends 'rr_app/auth_base.html' %}
+{% load static %}
+
+{% block title %}Sign In - Restaurant Reservation{% endblock %}
+
+{% block page_title %}
+<p class="content_title">Sign In</p>
+{% endblock %}
+
+{% block form_fields %}
+<input type="email" id="email" placeholder="Email address" required>
+<input type="password" id="password" placeholder="Password" required>
+<a class="fpass" id="forgotPassword" href="{% url 'forgot_password' %}">Forgot Password?</a>
+{% endblock %}
+
+{% block form_footer %}
+<p class="signup">Don't have an account? <a href="{% url 'register' %}">Sign up</a></p>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'rr_app/js/login.js' %}"></script>
+{% endblock %}

@@ -6,10 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const i_password = document.getElementById('password');
     const i_c_password = document.getElementById('cPassword');
     const user = {}
-    const dataManager = window.DataManager;
-    const error_msg = document.getElementById('errorMsg');
-    const ErrorMessage = window.ErrorMessage;
-    ErrorMessage.setElement(error_msg);
 
     submit.addEventListener('click', () => {
         user.first_name = first_name.value.trim();
@@ -21,28 +17,36 @@ document.addEventListener('DOMContentLoaded', () => {
         user.email = email;
         user.password = password;
         user.c_password = c_password;
-        dataManager.postRequest('/rr/register_user/', user).then(
+        window.DataManager.postRequest('/rr/register_user/', user).then(
             response => {
                 if (response.success) {
-                    alert(response.message)
-                    window.location.href = "/rr/login/";
+                    submit.disabled = true;
+                    window.MessageBox.showSuccess(response.message, ()=> {
+                        window.location.href = "/rr/login/";
+                    });
                 } else {
-                    ErrorMessage.show(response.error || 'Error creating user');
+                    window.ErrorMessage.show(response.error || 'Error creating user');
+                    submit.disabled = false;
                 }
             }
         );
     });
 
-    i_email.addEventListener('input', () => {
-        if (error_msg.textContent.includes("Email already exists")) {
-            ErrorMessage.remove();
-        }
-    });
-    [i_password, i_c_password].forEach(field => {
-        field.addEventListener('input', () => {
-            if (error_msg.textContent.includes("Passwords do not match")) {
-                ErrorMessage.remove();
+    const inputs = [i_email, i_password, i_c_password];
+    inputs.forEach((field, index) => {
+        field.addEventListener('keydown', (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                const next = inputs[index + 1];
+                if (next) {
+                    next.focus();
+                } else {
+                    submit.click();
+                }
             }
+        });
+        field.addEventListener('input', () => {
+            window.window.ErrorMessage.remove();
         });
     });
 });

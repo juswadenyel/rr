@@ -9,6 +9,6 @@ urlpatterns = [
     path('register_user/', auth.register_user, name ='register_user'),
     path('login_user/', auth.login_user, name ='login_user'),
     path('fpass_request/', auth.fpass_request, name ='fpass_request'),
-    path('reset_passsword', auth.reset_password_request, name='reset_password'),
-    path('refresh_token', auth.refresh_token, name='refresh_token'),
+    path('reset-password-req/', auth.reset_password_request, name='reset_password'),
+    path('refresh_token/', auth.refresh_token, name='refresh_token'),
 ]

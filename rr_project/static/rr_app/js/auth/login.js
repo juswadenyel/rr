@@ -2,11 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const submit = document.getElementById('btnSubmit');
     const i_email = document.getElementById('email');
     const i_password = document.getElementById('password');
-    const errorMsg = document.getElementById('errorMsg');
     const forgotPass = document.getElementById('forgotPassword');
-    const ErrorMessage = window.ErrorMessage;
     const dataManager = window.DataManager;
-    ErrorMessage.setElement(errorMsg);
 
     submit.addEventListener('click', async () => {
         const em_pass = {
@@ -18,12 +15,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await window.DataManager.postRequest('/rr/login_user/', em_pass);
             if (response.success) {
                 dataManager.auth.setSession(response.session, response.user);
-                alert(response.message);
+                submit.disabled = true;
+                window.MessageBox.showSuccess(response.message, ()=> {
+                    // logic to dashboard
+                    // fow now, just close the Messagebox
+                    window.MessageBox.hide();
+                });
             } else {
-                ErrorMessage.show(response.error || "Error logging in");
+                window.ErrorMessage.show(response.error || "Error logging in");
+                submit.disabled = false;
             }
         } catch (err) {
-            ErrorMessage.show(err);
+            window.ErrorMessage.show(err);
         }
     });
 
@@ -31,9 +34,22 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = "/rr/forgot_password/";
     });
 
-    [i_email, i_password].forEach(field => {
+    const inputs = [i_email, i_password];
+
+    inputs.forEach((field, index) => {
+        field.addEventListener('keydown', (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                const next = inputs[index + 1];
+                if (next) {
+                    next.focus();
+                } else {
+                    submit.click();
+                }
+            }
+        });
         field.addEventListener('input', () => {
-            ErrorMessage.remove();
+            window.ErrorMessage.remove();
         });
     });
 });

@@ -9,16 +9,16 @@ from django.conf import settings
 from functools import wraps
 import json
 def login_render(request):
-    return render(request, 'rr_app/login.html')
+    return render(request, 'rr_app/auth/login.html')
 
 def register_render(request):
-    return render(request, 'rr_app/register.html')
+    return render(request, 'rr_app/auth/register.html')
 
 def forgot_pass_render(request):
-    return render(request, 'rr_app/fpass.html')
+    return render(request, 'rr_app/auth/fpass.html')
 
 def reset_password_render(request):
-    return render(request, 'rr_app/reset_password.html')
+    return render(request, 'rr_app/auth/reset_pass.html')
 
 
 def get_supabase_client():
@@ -36,7 +36,7 @@ def register_user(request):
         last_name = data.get("last_name")
         
         if not all([email, password, first_name, last_name]):
-            return JsonResponse({"success": False, "error": "Please input all fields"}, status=400)
+            return JsonResponse({"success": False, "error": "Missing required fields"}, status=400)
 
         supabase = get_supabase_client()
         
@@ -91,7 +91,7 @@ def login_user(request):
         password = data.get("password")
         
         if not email or not password:
-            return JsonResponse({"success": False, "error": "Please input all fields"}, status=400)
+            return JsonResponse({"success": False, "error": "Missing required fields"}, status=400)
         
         supabase = get_supabase_client()
         
@@ -135,6 +135,8 @@ def login_user(request):
             return JsonResponse({"success": False, "error": "Please verify your email first"}, status=400)
         return JsonResponse({"success": False, "error": error_message}, status=400)
 
+
+
 @csrf_exempt 
 @require_http_methods(["POST"])
 def fpass_request(request):
@@ -147,11 +149,10 @@ def fpass_request(request):
         
         supabase = get_supabase_client()
         
-        # Send password reset email
         supabase.auth.reset_password_email(
             email,
             {
-                "redirect_to": f"{request.build_absolute_uri('/')[:-1]}/rr/reset-password/"
+                "redirect_to": f"{request.build_absolute_uri('/')[:-1]}/rr/reset_password/"
             }
         )
         
@@ -178,17 +179,23 @@ def reset_password_request(request):
         if not access_token or not password or not c_password:
             return JsonResponse({"success": False, "error": "Missing required fields"}, status=400)
         
-        valid, message = not validate_password(password) or not validate_password(c_password)
-        if not valid:
-            return JsonResponse({"success": False, "error": message}, status=400)
-        
+        valid1, msg1 = validate_password(password)
+        valid2, msg2 = validate_password(c_password)
+
+        if not valid1:
+            return JsonResponse({"success": False, "error": msg1}, status=400)
+
+        if not valid2:
+            return JsonResponse({"success": False, "error": msg2}, status=400)
+   
+        if password != c_password:
+            return JsonResponse({"success": False, "error": "Passwords do not match"}, status=400)
 
         supabase = get_supabase_client()
-        
-        # Update password
+        supabase.auth.set_session(access_token, access_token)
         supabase.auth.update_user({
             "password": password
-        }, access_token)
+        })
         
         return JsonResponse({
             "success": True,

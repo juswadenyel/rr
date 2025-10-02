@@ -36,4 +36,3 @@ class User(models.Model):
     def update_last_login(self):
         self.last_login = timezone.now()
         self.save(update_fields=['last_login'])
-

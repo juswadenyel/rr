@@ -30,15 +30,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# Email configuration
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = config('EMAIL_HOST') 
-EMAIL_PORT = config('EMAIL_PORT')
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = config('EMAIL_HOST_USER') 
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')  
-DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER') 
-
 # Supabase Configuration
 SUPABASE_URL = config('SUPABASE_URL')
 SUPABASE_ANON_KEY = config('SUPABASE_ANON_KEY')
@@ -95,7 +86,7 @@ WSGI_APPLICATION = 'rr_project.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.parse(
-        "postgresql://postgres.musaoslrzfsrvujbycyb:hgdkgasdvcxadr@aws-1-ap-southeast-1.pooler.supabase.com:5432/postgres"
+        "postgresql://postgres.vrrnlplnanqrrvocwljk:Rr@app1122@aws-1-ap-southeast-1.pooler.supabase.com:5432/postgres"
     )
 }
 

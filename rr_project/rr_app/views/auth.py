@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from ..models import User
-from .utils import  validate_password
+from .utils import  validate_password, validate_email, create_django_user
 from supabase import create_client
 from django.conf import settings
 from functools import wraps
@@ -32,11 +32,34 @@ def register_user(request):
         data = json.loads(request.body)
         email = data.get("email")
         password = data.get("password")
+        c_password = data.get("c_password")
         first_name = data.get("first_name")
         last_name = data.get("last_name")
+
+
         
         if not all([email, password, first_name, last_name]):
             return JsonResponse({"success": False, "error": "Missing required fields"}, status=400)
+
+        valid, msg = validate_email(email)
+
+        if not valid:
+            return JsonResponse({"success": False, "error": msg}, status=400)
+        
+        if not password or not c_password:
+            return JsonResponse({"success": False, "error": "Missing required fields"}, status=400)
+        
+        valid1, msg1 = validate_password(password)
+        valid2, msg2 = validate_password(c_password)
+
+        if not valid1:
+            return JsonResponse({"success": False, "error": msg1}, status=400)
+
+        if not valid2:
+            return JsonResponse({"success": False, "error": msg2}, status=400)
+   
+        if password != c_password:
+            return JsonResponse({"success": False, "error": "Passwords do not match"}, status=400)
 
         supabase = get_supabase_client()
         
@@ -51,18 +74,9 @@ def register_user(request):
                 }
             }
         })
+
         user = auth_response.user
-
-        django_user = User.objects.create(
-            supabase_id=user.id,
-            email=email,
-            first_name=first_name,
-            last_name=last_name,
-            is_active=True
-        )
-        django_user.update_last_login()
-
-        
+    
         if user:
             return JsonResponse({
                 "success": True,
@@ -95,7 +109,6 @@ def login_user(request):
         
         supabase = get_supabase_client()
         
-        # Sign in with Supabase
         auth_response = supabase.auth.sign_in_with_password({
             "email": email,
             "password": password
@@ -103,10 +116,19 @@ def login_user(request):
         
         if auth_response.user and auth_response.session:
             access_token = auth_response.session.access_token
-            # Sync user with Django model
-            user = supabase.auth.get_user(access_token).user
-            django_user = User.objects.filter(supabase_id=user.id).first()
-            django_user.update_last_login()
+
+            supa_user = supabase.auth.get_user(access_token).user
+
+            django_user = create_django_user(
+                supa_user.id,
+                supa_user.email,
+                supa_user.user_metadata.get("first_name", ""),
+                supa_user.user_metadata.get("last_name", "")
+            )
+
+            if not django_user:
+                return JsonResponse({"success": False, "error": "Could not sync Django user"}, status=500)
+
             return JsonResponse({
                 "success": True,
                 "message": "Login successful",
@@ -121,8 +143,8 @@ def login_user(request):
                     "email": django_user.email,
                     "first_name": django_user.first_name,
                     "last_name": django_user.last_name,
-                    "role": django_user.role,
-                    "is_admin": django_user.is_admin()
+                    "role": getattr(django_user, "role", None),
+                    "is_admin": django_user.is_admin() if hasattr(django_user, "is_admin") else False
                 }
             })
         else:

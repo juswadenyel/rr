@@ -1,5 +1,5 @@
 import re
-    
+from ..models import User
 def get_client_ip(request):
     """Get client IP address from request"""
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -21,3 +21,30 @@ def validate_password(password):
     if not re.search(r"[0-9]", password):
         return False, "Password must contain at least one number"
     return True, "Password is valid"
+
+def validate_email(email):
+    if not email:
+        return False, "Email cannot be empty"
+
+    # Simple but practical regex (RFC-compliant is overkill)
+    email_regex = r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'
+
+    if not re.match(email_regex, email):
+        return False, "Invalid email format"
+
+    return True, "Email is valid"
+
+def create_django_user(user_id, email, first_name, last_name):
+    existing_user = User.objects.filter(email=email).first()
+    if existing_user:
+        return existing_user
+    
+    django_user = User.objects.create(
+        supabase_id=user_id,
+        email=email,
+        first_name=first_name,
+        last_name=last_name,
+        is_active=True,
+    )
+    django_user.update_last_login()
+    return django_user

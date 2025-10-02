@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         );
     });
 
-    const inputs = [i_email, i_password, i_c_password];
+    const inputs = [first_name, last_name, i_email, i_password, i_c_password];
     inputs.forEach((field, index) => {
         field.addEventListener('keydown', (e) => {
             if (e.key === "Enter") {

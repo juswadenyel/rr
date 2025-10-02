@@ -61,6 +61,8 @@ def register_user(request):
         if password != c_password:
             return JsonResponse({"success": False, "error": "Passwords do not match"}, status=400)
 
+        if User.objects.filter(email=email).exists:
+            return JsonResponse({"success": False, "error": "User already registered"}, status=400)
         supabase = get_supabase_client()
         
         # Register with Supabase

@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const dataManager = window.DataManager;
 
     submit.addEventListener('click', async () => {
+        submit.disabled = true;
         const em_pass = {
             email: i_email.value.trim(),
             password: i_password.value.trim()
@@ -15,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await window.DataManager.postRequest('/rr/login_user/', em_pass);
             if (response.success) {
                 dataManager.auth.setSession(response.session, response.user);
-                submit.disabled = true;
                 window.MessageBox.showSuccess(response.message, ()=> {
                     // logic to dashboard
                     // fow now, just close the Messagebox

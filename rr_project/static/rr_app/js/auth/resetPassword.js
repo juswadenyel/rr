@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const access_token = params.get('access_token');
 
     submit.addEventListener('click', async () => {
+        submit.disabled = true;
             const password = i_password.value.trim();
             const c_password = i_c_password.value.trim();
             try {

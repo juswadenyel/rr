@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const submit = document.getElementById('btnSubmit');
 
     submit.addEventListener('click', async () => {
+        submit.disabled = true;
             const email = i_email.value.trim();
 
             try {

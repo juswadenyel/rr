@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const user = {}
 
     submit.addEventListener('click', () => {
+        submit.disabled = true;
         user.first_name = first_name.value.trim();
         user.last_name = last_name.value.trim();
         const password = i_password.value.trim();
@@ -20,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.DataManager.postRequest('/rr/register_user/', user).then(
             response => {
                 if (response.success) {
-                    submit.disabled = true;
                     window.MessageBox.showSuccess(response.message, ()=> {
                         window.location.href = "/rr/login/";
                     });

@@ -19,4 +19,4 @@ The system provides a smooth interface for users and an admin dashboard for mana
 - **Backend**: Django (Python)  
 - **Frontend**: HTML, CSS, JavaScript  
 - **Database**: SQLite (default, can be swapped for PostgreSQL/MySQL)  
-- **Version Control**: Git & GitHub  
+- **Version Control**: Git & GitHub

@@ -1,0 +1,54 @@
+{% extends "rr_app/base.html" %}
+{% load static %}
+
+{% block title %}Dashboard - Restaurant Reservation{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'rr_app/css/dashboard.css' %}">
+{% endblock %}
+{% block body %}
+  <!-- Background -->
+  <div class="background"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">
+      <img src="{% static 'rr_app/images/cloche.png' %}" alt="Logo">
+      <span class="brand">RESTAURANT RESERVATION</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">My Reservations</a></li>
+      <li><a href="#">Favorites</a></li>
+      <li><a href="#">Profile</a></li>
+      <li><a href="#">Logout</a></li>
+    </ul>
+  </nav>
+
+  <!-- Dashboard Content -->
+  <div class="container">
+    <h1>Welcome, {{ user.first_name }} 👋</h1>
+    <p>Here’s your dashboard overview</p>
+
+    <div class="cards">
+      <div class="card">
+        <h2>Upcoming Reservations</h2>
+        <p>You have 2 reservations this week.</p>
+        <a href="#">View Details</a>
+      </div>
+      <div class="card">
+        <h2>Favorites</h2>
+        <p>Check your saved restaurants.</p>
+        <a href="#">View Favorites</a>
+      </div>
+      <div class="card">
+        <h2>Explore Restaurants</h2>
+        <p>Find top-rated dining experiences.</p>
+        <a href="#">Browse Now</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block js %}
+  <script src="{% static 'rr_app/js/dashboard.js' %}"></script>
+{% endblock %}

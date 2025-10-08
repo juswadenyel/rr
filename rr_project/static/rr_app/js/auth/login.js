@@ -17,9 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.success) {
                 dataManager.auth.setSession(response.session, response.user);
                 window.MessageBox.showSuccess(response.message, ()=> {
-                    // logic to dashboard
-                    // fow now, just close the Messagebox
-                    window.MessageBox.hide();
+                    window.location.href = '/rr/dashboard/'
                 });
             } else {
                 window.ErrorMessage.show(response.error || "Error logging in");

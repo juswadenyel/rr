@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import auth
+from .views import auth, dashboard
 
 urlpatterns = [
     path('login/', auth.login_render, name='login'),  # Keep this if you want the old URL
@@ -11,4 +11,5 @@ urlpatterns = [
     path('fpass_request/', auth.fpass_request, name ='fpass_request'),
     path('reset-password-req/', auth.reset_password_request, name='reset_password'),
     path('refresh_token/', auth.refresh_token, name='refresh_token'),
+    path('dashboard/', dashboard.dashboard_render, name='dashboard'),
 ]

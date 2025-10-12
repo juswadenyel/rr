@@ -63,7 +63,7 @@ class Auth {
             console.log('Attempting to refresh access token...');
             console.log('Old access token:', this.accessToken?.substring(0, 20) + '...');
             
-            const response = await fetch('/rr/api/refresh-token/', {
+            const response = await fetch('/rr/api/refresh-token', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token: this.refreshToken })
@@ -155,11 +155,12 @@ class Auth {
             return;
         }
 
+        console.log("there is a session");
         console.log("Validating session...");
         console.log("Access token:", this.accessToken?.substring(0, 20) + '...');
         
         try {
-            const response = await fetch('/rr/api/validate-session/', {
+            const response = await fetch('/rr/api/validate-session', {
                 method: 'GET',
                 headers: this.getAuthHeaders()
             });
@@ -171,12 +172,12 @@ class Auth {
             } else {
                 console.log('Session invalid:', data.message);
                 this.clearSession(); 
-                window.location.href = '/rr/sign-in/';
+                // window.location.href = '/rr/sign-in';
             }
         } catch (error) {
             console.error('Session validation error:', error);
             this.clearSession();
-            window.location.href = '/rr/sign-in/';
+            // window.location.href = '/rr/sign-in';
         }
     }
 
@@ -185,7 +186,7 @@ class Auth {
         console.log('Auth headers:', this.getAuthHeaders());
         
         try {
-            const response = await fetch('/rr/api/sign-out/', {
+            const response = await fetch('/rr/api/sign-out', {
                 method: 'GET',
                 headers: this.getAuthHeaders()
             });
@@ -194,16 +195,16 @@ class Auth {
                 console.log('Sign out successful');
                 this.clearSession();
                 callback?.();
-                window.location.href = '/rr/sign-in/';
+                window.location.href = '/rr/sign-in';
             } else {
                 console.log('Sign out request failed, but clearing session anyway');
                 this.clearSession();
-                window.location.href = '/rr/sign-in/';
+                window.location.href = '/rr/sign-in';
             }
         } catch (error) {
             console.error('Logout error:', error);
             this.clearSession();
-            window.location.href = '/rr/sign-in/';
+            window.location.href = '/rr/sign-in';
         }
     }
 }

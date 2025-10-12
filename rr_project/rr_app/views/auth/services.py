@@ -1,4 +1,3 @@
-# services.py
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.conf import settings
@@ -262,9 +261,9 @@ class AuthService:
             },
             'session': {
                 'id': session.id,
-                'access_token': session.access_token.value,
-                'refresh_token': session.refresh_token.value,
-                'expires_at': session.access_token.expires_at.isoformat()
+                'accessToken': session.access_token.value,
+                'refreshToken': session.refresh_token.value,
+                'expiresAt': session.access_token.expires_at.isoformat()
             }
         }
     

@@ -1,17 +1,23 @@
 {% extends 'rr_app/auth/auth_base.html' %}
 {% load static %}
 
-{% block title %}Reset Password - Restaurant Reservation{% endblock %}
+{% block title %}Reset Password - RR{% endblock %}
 
 {% block page_title %}
-<p class="content_title">Reset Password</p>
+  <p class="content_title">Reset Password</p>
 {% endblock %}
 
 {% block form_fields %}
-<input type="password" id="password" placeholder="Password" required>
-<input type="password" id="cPassword" placeholder="Confirm password" required>
+  <div class="password-wrapper">
+    <input type="password" id="password" placeholder="Password" required>
+    <i class="fa-regular fa-eye toggle-password" id="togglePassword"></i>
+  </div>
+  <div class="password-wrapper">
+    <input type="password" id="c_password" placeholder="Confirm password" required>
+    <i class="fa-regular fa-eye toggle-password" id="togglePassword"></i>
+  </div>
 {% endblock %}
 
-{% block js %}
-<script src="{% static 'rr_app/js/auth/resetPassword.js' %}"></script>
+{% block auth_js %}
+  <script src="{% static 'rr_app/js/auth/reset_pass.js' %}"></script>
 {% endblock %}

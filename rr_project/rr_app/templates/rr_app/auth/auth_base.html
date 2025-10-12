@@ -1,28 +1,38 @@
 {% extends 'rr_app/base.html' %}
 {% load static %}
 
-{% block css %}
-<link rel="stylesheet" href="{% static 'rr_app/css/auth.css' %}">
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'rr_app/css/auth.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
-{% block body %}
-<div class="logo">
-    <img src="{% static 'rr_app/images/cloche.png' %}">
+{% block content %}
+  <div class="logo">
+    <img src="{% static 'rr_app/images/cloche.png' %}" alt="Logo">
     <p class="title">RESTAURANT</p>
     <p class="subtitle">RESERVATION</p>
-</div>
+  </div>
 
-<div class="container">
+  <div class="container">
     {% block page_title %}{% endblock %}
     
     <form>
-        {% block form_fields %}{% endblock %}
-        
-        <input type="button" value="Submit" id="btnSubmit">
-        
-        {% block form_footer %}{% endblock %}
-        
-        <p class="error-msg" id="errorMsg"></p>
+      {% block form_fields %}{% endblock %}
+      
+      <input type="button" value="Submit" id="btn_submit">
+      
+      {% block form_footer %}{% endblock %}
+      
+      <p class="error-msg" id="error_msg"></p>
     </form>
-</div>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'rr_app/js/auth/ErrorMessage.js' %}"></script>
+  <script src="{% static 'rr_app/js/auth/FieldInputKeyListener.js' %}"></script>
+  <script src="{% static 'rr_app/js/auth/AuthFieldValidator.js' %}"></script>
+  <script src="{% static 'rr_app/js/auth/password_toggle.js' %}"></script>
+
+  {% block auth_js %}{% endblock %}
 {% endblock %}

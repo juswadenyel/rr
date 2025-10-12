@@ -5,76 +5,134 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(10, 14, 39, 0.85);
+  backdrop-filter: blur(8px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  display: none; /* Hidden by default */
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
 }
 
 .messagebox-overlay.show {
-  display: flex;
+  opacity: 1;
+  visibility: visible;
 }
 
-/* MessageBox Container */
+/* DARK THEME (Default) */
 .messagebox {
-  background: #fff;
-  border-radius: 25px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  min-width: 350px;
+  background: linear-gradient(135deg, #0f1433 0%, #1a2145 100%);
+  border: 1px solid rgba(74, 158, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  min-width: 400px;
   max-width: 500px;
-  padding: 30px 35px;
+  padding: 32px 36px;
   font-family: 'Roboto', sans-serif;
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.messagebox-overlay.show .messagebox {
+  transform: scale(1);
 }
 
 /* MessageBox Title */
 .messagebox-title {
-  font-size: 32px;
-  font-weight: bold;
-  color: #2B2828;
-  margin-bottom: 20px;
-  letter-spacing: 2px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 16px;
+  letter-spacing: -0.5px;
   text-align: center;
 }
 
 /* MessageBox Message */
 .messagebox-message {
-  font-size: 16px;
-  color: #2B2828;
-  margin-bottom: 25px;
-  line-height: 1.5;
+  font-size: 15px;
+  color: #a0b0d0;
+  margin-bottom: 28px;
+  line-height: 1.6;
   text-align: center;
   padding: 0 10px;
+}
+
+/* MessageBox Input Container */
+.msgbx-input-container {
+  margin: 20px 0 10px 0;
+  width: 100%;
+}
+
+.msgbx-input {
+  width: 100%;
+  padding: 14px 16px;
+  background: rgba(26, 33, 69, 0.4);
+  border: 1px solid rgba(74, 158, 255, 0.2);
+  border-radius: 8px;
+  color: #e0e6ff;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.msgbx-input::placeholder {
+  color: rgba(160, 176, 208, 0.5);
+}
+
+.msgbx-input:focus {
+  border-color: #4a9eff;
+  background: rgba(26, 33, 69, 0.6);
+  box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.1);
+}
+
+.msgbx-input.error {
+  border-color: #ff4a6b;
+  background: rgba(255, 74, 107, 0.05);
+  animation: shake 0.3s ease;
+}
+
+.msgbx-input.error::placeholder {
+  color: #ff4a6b;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
 }
 
 /* MessageBox Buttons Container */
 .messagebox-buttons {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   justify-content: center;
   flex-wrap: wrap;
 }
 
 /* MessageBox Buttons */
 .messagebox-btn {
-  padding: 12px 30px;
-  border: none;
+  padding: 12px 28px;
+  border: 1px solid rgba(74, 158, 255, 0.2);
   border-radius: 8px;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  background-color: #e0e0e0;
-  color: #2B2828;
+  background: rgba(42, 53, 101, 0.6);
+  color: #a0b0d0;
   font-family: 'Roboto', sans-serif;
-  min-width: 100px;
+  min-width: 110px;
 }
 
 .messagebox-btn:hover {
-  background-color: #d0d0d0;
+  background: rgba(42, 53, 101, 0.8);
+  border-color: #4a9eff;
+  color: #4a9eff;
   transform: translateY(-2px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(74, 158, 255, 0.2);
 }
 
 .messagebox-btn:active {
@@ -83,24 +141,253 @@
 
 /* Primary Button Style */
 .messagebox-btn-primary {
-  background-color: #6689C9;
-  color: white;
+  background: linear-gradient(135deg, #4a9eff 0%, #3a8eef 100%);
+  color: #fff;
+  border-color: #4a9eff;
+  box-shadow: 0 4px 12px rgba(74, 158, 255, 0.3);
 }
 
 .messagebox-btn-primary:hover {
-  background-color: #40609b;
+  background: linear-gradient(135deg, #3a8eef 0%, #2a7edf 100%);
+  border-color: #4a9eff;
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(74, 158, 255, 0.4);
+}
+
+/* ================================ */
+/* LIGHT THEME */
+/* ================================ */
+.messagebox.light {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.messagebox.light .messagebox-title {
+  color: #2B2828;
+}
+
+.messagebox.light .messagebox-message {
+  color: #2B2828;
+}
+
+.messagebox.light .msgbx-input {
+  background: #f5f5f5;
+  border: 1px solid #d0d0d0;
+  color: #2B2828;
+}
+
+.messagebox.light .msgbx-input::placeholder {
+  color: rgba(43, 40, 40, 0.5);
+}
+
+.messagebox.light .msgbx-input:focus {
+  border-color: #6689C9;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(102, 137, 201, 0.1);
+}
+
+.messagebox.light .msgbx-input.error {
+  border-color: #e53935;
+  background: rgba(229, 57, 53, 0.05);
+}
+
+.messagebox.light .msgbx-input.error::placeholder {
+  color: #e53935;
+}
+
+.messagebox.light .messagebox-btn {
+  background: #e0e0e0;
+  color: #2B2828;
+  border: 1px solid #d0d0d0;
+}
+
+.messagebox.light .messagebox-btn:hover {
+  background: #d0d0d0;
+  border-color: #6689C9;
+  color: #6689C9;
+  box-shadow: 0 4px 12px rgba(102, 137, 201, 0.2);
+}
+
+.messagebox.light .messagebox-btn-primary {
+  background: #6689C9;
+  color: #fff;
+  border-color: #6689C9;
+  box-shadow: 0 4px 12px rgba(102, 137, 201, 0.3);
+}
+
+.messagebox.light .messagebox-btn-primary:hover {
+  background: #5578B8;
+  border-color: #5578B8;
+  box-shadow: 0 6px 20px rgba(102, 137, 201, 0.4);
+}
+
+/* Light Theme - Theme Variations */
+.messagebox.light.theme-error .messagebox-title {
+  color: #e53935;
+}
+
+.messagebox.light.theme-error .messagebox-btn-primary {
+  background: #e53935;
+  border-color: #e53935;
+  box-shadow: 0 4px 12px rgba(229, 57, 53, 0.3);
+}
+
+.messagebox.light.theme-error .messagebox-btn-primary:hover {
+  background: #d32f2f;
+  box-shadow: 0 6px 20px rgba(229, 57, 53, 0.4);
+}
+
+.messagebox.light.theme-error .msgbx-input:focus {
+  border-color: #e53935;
+  box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.1);
+}
+
+.messagebox.light.theme-success .messagebox-title {
+  color: #43a047;
+}
+
+.messagebox.light.theme-success .messagebox-btn-primary {
+  background: #43a047;
+  border-color: #43a047;
+  box-shadow: 0 4px 12px rgba(67, 160, 71, 0.3);
+}
+
+.messagebox.light.theme-success .messagebox-btn-primary:hover {
+  background: #388e3c;
+  box-shadow: 0 6px 20px rgba(67, 160, 71, 0.4);
+}
+
+.messagebox.light.theme-success .msgbx-input:focus {
+  border-color: #43a047;
+  box-shadow: 0 0 0 3px rgba(67, 160, 71, 0.1);
+}
+
+.messagebox.light.theme-warning .messagebox-title {
+  color: #fb8c00;
+}
+
+.messagebox.light.theme-warning .messagebox-btn-primary {
+  background: #fb8c00;
+  border-color: #fb8c00;
+  box-shadow: 0 4px 12px rgba(251, 140, 0, 0.3);
+}
+
+.messagebox.light.theme-warning .messagebox-btn-primary:hover {
+  background: #f57c00;
+  box-shadow: 0 6px 20px rgba(251, 140, 0, 0.4);
+}
+
+.messagebox.light.theme-warning .msgbx-input:focus {
+  border-color: #fb8c00;
+  box-shadow: 0 0 0 3px rgba(251, 140, 0, 0.1);
+}
+
+.messagebox.light.theme-info .messagebox-title {
+  color: #6689C9;
+}
+
+.messagebox.light.theme-info .msgbx-input:focus {
+  border-color: #6689C9;
+  box-shadow: 0 0 0 3px rgba(102, 137, 201, 0.1);
+}
+
+/* Dark Theme - Theme Variations */
+.messagebox.theme-error {
+  border-color: rgba(255, 74, 107, 0.3);
+}
+
+.messagebox.theme-error .messagebox-title {
+  color: #ff4a6b;
+}
+
+.messagebox.theme-error .messagebox-btn-primary {
+  background: linear-gradient(135deg, #ff4a6b 0%, #ef3a5b 100%);
+  border-color: #ff4a6b;
+  box-shadow: 0 4px 12px rgba(255, 74, 107, 0.3);
+}
+
+.messagebox.theme-error .messagebox-btn-primary:hover {
+  background: linear-gradient(135deg, #ef3a5b 0%, #df2a4b 100%);
+  box-shadow: 0 6px 20px rgba(255, 74, 107, 0.4);
+}
+
+.messagebox.theme-error .msgbx-input:focus {
+  border-color: #ff4a6b;
+  box-shadow: 0 0 0 3px rgba(255, 74, 107, 0.1);
+}
+
+.messagebox.theme-success {
+  border-color: rgba(39, 201, 63, 0.3);
+}
+
+.messagebox.theme-success .messagebox-title {
+  color: #27c93f;
+}
+
+.messagebox.theme-success .messagebox-btn-primary {
+  background: linear-gradient(135deg, #27c93f 0%, #1fb935 100%);
+  border-color: #27c93f;
+  box-shadow: 0 4px 12px rgba(39, 201, 63, 0.3);
+}
+
+.messagebox.theme-success .messagebox-btn-primary:hover {
+  background: linear-gradient(135deg, #1fb935 0%, #17a92b 100%);
+  box-shadow: 0 6px 20px rgba(39, 201, 63, 0.4);
+}
+
+.messagebox.theme-success .msgbx-input:focus {
+  border-color: #27c93f;
+  box-shadow: 0 0 0 3px rgba(39, 201, 63, 0.1);
+}
+
+.messagebox.theme-warning {
+  border-color: rgba(255, 189, 46, 0.3);
+}
+
+.messagebox.theme-warning .messagebox-title {
+  color: #ffbd2e;
+}
+
+.messagebox.theme-warning .messagebox-btn-primary {
+  background: linear-gradient(135deg, #ffbd2e 0%, #efad1e 100%);
+  border-color: #ffbd2e;
+  box-shadow: 0 4px 12px rgba(255, 189, 46, 0.3);
+}
+
+.messagebox.theme-warning .messagebox-btn-primary:hover {
+  background: linear-gradient(135deg, #efad1e 0%, #df9d0e 100%);
+  box-shadow: 0 6px 20px rgba(255, 189, 46, 0.4);
+}
+
+.messagebox.theme-warning .msgbx-input:focus {
+  border-color: #ffbd2e;
+  box-shadow: 0 0 0 3px rgba(255, 189, 46, 0.1);
+}
+
+.messagebox.theme-info {
+  border-color: rgba(74, 158, 255, 0.3);
+}
+
+.messagebox.theme-info .messagebox-title {
+  color: #4a9eff;
+}
+
+.messagebox.theme-info .msgbx-input:focus {
+  border-color: #4a9eff;
+  box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.1);
 }
 
 /* Responsive Design */
 @media (max-width: 600px) {
   .messagebox {
-    min-width: 280px;
+    min-width: 320px;
     max-width: 90%;
-    padding: 25px 20px;
+    padding: 28px 24px;
   }
 
   .messagebox-title {
-    font-size: 28px;
+    font-size: 22px;
   }
 
   .messagebox-message {
@@ -109,7 +396,7 @@
 
   .messagebox-btn {
     padding: 10px 20px;
-    font-size: 14px;
-    min-width: 80px;
+    font-size: 13px;
+    min-width: 90px;
   }
 }

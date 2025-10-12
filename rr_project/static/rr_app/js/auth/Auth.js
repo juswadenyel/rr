@@ -167,17 +167,17 @@ class Auth {
 
             const data = await response.json();
             
-            if (response.ok && data.success) {
+            if (data) {
                 console.log('Session is valid:', data.message);
             } else {
                 console.log('Session invalid:', data.message);
                 this.clearSession(); 
-                // window.location.href = '/rr/sign-in';
+                window.location.href = '/rr/sign-in';
             }
         } catch (error) {
             console.error('Session validation error:', error);
             this.clearSession();
-            // window.location.href = '/rr/sign-in';
+            window.location.href = '/rr/sign-in';
         }
     }
 

@@ -24,5 +24,5 @@ urlpatterns = [
     path('reset-password', views.reset_password_page, name='reset_password_page'),
     path('verify-account', views.verify_account_page, name='verify_account_page'),
 
-    path('dashboard/', dashboard.dashboard_render, name='dashboard'),
+    path('dashboard', dashboard.dashboard_render, name='dashboard'),
 ]

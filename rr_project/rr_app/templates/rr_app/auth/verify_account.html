@@ -1,0 +1,67 @@
+{% extends 'rr_app/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'rr_app/css/auth.css' %}">
+  <link rel="stylesheet" href="{% static 'rr_app/css/verify_email.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="verify-container">
+    <div class="verify-content">
+
+      <!-- Logo -->
+      <div class="logo-header">
+      <img src="{% static 'rr_app/images/cloche.png' %}" alt="Logo">
+        <h1 class="company-name">Campus Information</h1>
+        <p class="company-tagline">Chatbot</p>
+      </div>
+
+      <!-- Main Content -->
+      <div class="verify-main">
+        <div class="verify-icon">
+          <!-- Inline SVG -->
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 4H4C2.9 4 2.01 4.9 2.01 6L2 18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 8L12 13L4 8V6L12 11L20 6V8Z" fill="#667eea"/>
+          </svg>
+        </div>
+
+        <h2 class="verify-title">Verify Your Email Address</h2>
+        
+        <p class="verify-description">
+          To complete your registration and start using Campus Information Chatbot, 
+          please verify your email address by clicking the button below.
+        </p>
+
+        <!-- Status -->
+        <div class="status-badge status-verified" id="verification_status">
+          <span id="status">STATUS: VERIFIED</span>
+        </div>
+
+        <!-- Account Details -->
+        <div class="account-details">
+          <div class="detail-item">
+            <span class="detail-label">Email Address</span>
+            <span class="detail-value" id="email">N/A</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Account Name</span>
+            <span class="detail-value" id="name">N/A</span>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <button class="btn-verify" id="btn_verify" disabled>Verify Email Address</button>
+
+        <!-- Footer Info -->
+        <div class="verify-footer">
+          <p>If you didn't create an account, you can safely ignore this message.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'rr_app/js/auth/verify_account.js' %}"></script>
+{% endblock %}

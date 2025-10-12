@@ -1,14 +1,15 @@
 /* Reset & Base */
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   min-height: 100vh;
   font-family: 'Roboto', sans-serif;
   display: flex;
-  flex-direction: column;     
-  justify-content: center;    
-  align-items: center;       
-  background: url('../images/login_register_bg.png') no-repeat center center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: url('../images/auth_bg.png') no-repeat center center;
   background-size: cover;
   background-attachment: fixed;
 }
@@ -16,8 +17,8 @@ body, html {
 /* Logo Section */
 .logo {
   display: flex;
-  flex-direction: column; 
-  align-items: center;    
+  flex-direction: column;
+  align-items: center;
   text-align: center;
   margin-bottom: 20px;
 }
@@ -29,7 +30,7 @@ body, html {
 }
 
 .logo p {
-  margin: 0;           
+  margin: 0;
   line-height: 1.2;
   color: #fff;
   font-weight: bold;
@@ -58,7 +59,7 @@ body, html {
   background: #fff;
   border-radius: 25px;
   margin-top: 40px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   padding: 30px 35px;
   box-sizing: border-box;
 }
@@ -136,27 +137,8 @@ body, html {
   text-decoration: underline;
 }
 
-/* Links - Sign up (for login page) */
-.container form .signup {
-  font-size: 14px;
-  color: #2B2828;
-  text-align: center;
-  margin-top: 20px;
-  letter-spacing: 1px;
-}
-
-.container form .signup a {
-  color: #C4541F;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.container form .signup a:hover {
-  text-decoration: underline;
-}
-
 /* Links - Sign in (for registration page) */
-.container form .signin {
+.container form .auth_link {
   font-size: 14px;
   color: #2B2828;
   text-align: center;
@@ -164,13 +146,13 @@ body, html {
   letter-spacing: 1px;
 }
 
-.container form .signin a {
+.container form .auth_link a {
   color: #C4541F;
   text-decoration: none;
   font-weight: bold;
 }
 
-.container form .signin a:hover {
+.container form .auth_link a:hover {
   text-decoration: underline;
 }
 
@@ -184,4 +166,66 @@ body, html {
   margin: 10px 0;
   min-height: 20px;
   display: none;
+}
+
+/* Verification Code Boxes */
+.verification-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.code-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.code-box {
+  width: 45px;
+  height: 50px;
+  text-align: center;
+  font-size: 22px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #2B2828;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.code-box:focus {
+  outline: none;
+  border-color: #C4541F;
+  box-shadow: 0 0 5px rgba(196, 84, 31, 0.5);
+}
+
+.auth_link a.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-wrapper input {
+  padding-right: 45px !important;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #C4541F;
+  font-size: 18px;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.toggle-password:hover {
+  color: #a63c10;
 }

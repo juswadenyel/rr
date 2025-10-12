@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!valid_password.success)
                 return showError(valid_password.message);
 
-            await handleSignUp({ firstName: f_name, lastName: l_name, email, password, role: 'STUDENT' });
+            await handleSignUp({ firstName: f_name, lastName: l_name, email, password, role: 'CUSTOMER' });
         });
     };
 

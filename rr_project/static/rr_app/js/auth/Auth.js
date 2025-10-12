@@ -5,7 +5,9 @@ class Auth {
         this.user = JSON.parse(localStorage.getItem('user') || 'null');
         this.tokenExpiry = localStorage.getItem('token_expiry');
         window.MessageBox.setTheme('light');
-        if(!this.isAuthenticated()) return;
+        
+        if (!this.isAuthenticated()) return;
+        
         this.validateSession();
         this.startTokenRefreshTimer();
     }
@@ -52,21 +54,27 @@ class Auth {
     }
 
     async refreshAccessToken() {
-        if (!this.refreshToken) return false;
+        if (!this.refreshToken) {
+            console.log('No refresh token available');
+            return false;
+        }
 
         try {
-            const response = await fetch('/rr/api/refresh-token', {
+            console.log('Attempting to refresh access token...');
+            console.log('Old access token:', this.accessToken?.substring(0, 20) + '...');
+            
+            const response = await fetch('/rr/api/refresh-token/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token: this.refreshToken })
             });
 
             const responseData = await response.json();
-            console.log(responseData);
-            console.log("old access token: " + this.accessToken);
-            if (response.ok && responseData.data) {
+            
+            if (responseData.success && responseData.data) {
+                console.log('Token refreshed successfully');
+                console.log('New access token:', responseData.data.accessToken?.substring(0, 20) + '...');
                 
-            console.log("new access token: " + this.accessToken);
                 this.accessToken = responseData.data.accessToken;
                 this.refreshToken = responseData.data.refreshToken;
                 this.tokenExpiry = responseData.data.expiresAt;
@@ -77,79 +85,125 @@ class Auth {
 
                 this.startTokenRefreshTimer();
                 return true;
+            } else {
+                console.log('Token refresh failed:', responseData.message);
+                return false;
             }
         } catch (error) {
-            console.log('Token refresh failed:', error);
+            console.log('Token refresh error:', error);
+            return false;
         }
-
-        return false;
     }
 
     startTokenRefreshTimer() {
         this.stopTokenRefreshTimer();
-        if (!this.tokenExpiry) return;
+        
+        if (!this.tokenExpiry) {
+            console.log('No token expiry set, cannot start refresh timer');
+            return;
+        }
 
-        // Parse ISO LocalDateTime from backend
-        const expiryTime = new Date(this.tokenExpiry);
-        const now = new Date();
-        const timeUntilExpiry = expiryTime.getTime() - now.getTime();
-
-        // Refresh 5 minutes before expiry
-        const refreshTime = Math.max(timeUntilExpiry - 5 * 60 * 1000, 60000);
-        console.log("expiry time: " + expiryTime);
-        console.log("Refresh time: " + refreshTime);
-        this.refreshTimer = setTimeout(async () => {
-            console.log("🔄 Timer triggered — attempting token refresh...");
-            const refreshed = await this.refreshAccessToken();
-            if (!refreshed) {
-                await this.signOut();
+        try {
+            const expiryTime = new Date(this.tokenExpiry);
+            const now = new Date();
+            
+            if (isNaN(expiryTime.getTime())) {
+                console.error('Invalid token expiry format:', this.tokenExpiry);
+                return;
             }
-        }, refreshTime);
+            
+            const timeUntilExpiry = expiryTime.getTime() - now.getTime();
+            
+            if (timeUntilExpiry <= 0) {
+                console.log('Token already expired, signing out...');
+                this.signOut();
+                return;
+            }
+
+            const refreshTime = Math.max(timeUntilExpiry - 5 * 60 * 1000, 60000);
+            
+            console.log('Token refresh scheduled:');
+            console.log('  - Current time:', now.toLocaleString());
+            console.log('  - Expiry time:', expiryTime.toLocaleString());
+            console.log('  - Time until expiry:', Math.round(timeUntilExpiry / 1000 / 60), 'minutes');
+            console.log('  - Will refresh in:', Math.round(refreshTime / 1000 / 60), 'minutes');
+            
+            this.refreshTimer = setTimeout(async () => {
+                console.log("Timer triggered — attempting token refresh...");
+                const refreshed = await this.refreshAccessToken();
+                if (!refreshed) {
+                    console.log('Refresh failed, signing out...');
+                    await this.signOut();
+                }
+            }, refreshTime);
+        } catch (error) {
+            console.error('Error starting refresh timer:', error);
+        }
     }
 
     stopTokenRefreshTimer() {
         if (this.refreshTimer) {
             clearTimeout(this.refreshTimer);
             this.refreshTimer = null;
+            console.log('Token refresh timer stopped');
         }
     }
 
     async validateSession() {
-        console.log("access token: " + this.accessToken);
+        if (!this.accessToken) {
+            console.log('No access token, cannot validate session');
+            return;
+        }
+
+        console.log("Validating session...");
+        console.log("Access token:", this.accessToken?.substring(0, 20) + '...');
+        
         try {
-            const response = await fetch('/rr/api/validate-session', {
+            const response = await fetch('/rr/api/validate-session/', {
                 method: 'GET',
                 headers: this.getAuthHeaders()
             });
-            if(!response.ok){
+
+            const data = await response.json();
+            
+            if (response.ok && data.success) {
+                console.log('Session is valid:', data.message);
+            } else {
+                console.log('Session invalid:', data.message);
                 this.clearSession(); 
-                window.location.href = '/rr/sign-in';
-            }else{
-                console.log(await response.json());
+                window.location.href = '/rr/sign-in/';
             }
         } catch (error) {
+            console.error('Session validation error:', error);
             this.clearSession();
-            window.location.href = '/rr/sign-in';
+            window.location.href = '/rr/sign-in/';
         }
     }
 
-
     async signOut(callback) {
-        console.log(this.getAuthHeaders());
+        console.log('Signing out...');
+        console.log('Auth headers:', this.getAuthHeaders());
+        
         try {
-            const response = await fetch('/rr/api/sign-out', {
+            const response = await fetch('/rr/api/sign-out/', {
                 method: 'GET',
                 headers: this.getAuthHeaders()
             });
-            if (response.ok || response.status === 401){
-                window.location.href = '/rr/sign-in';
+            
+            if (response.ok || response.status === 401) {
+                console.log('Sign out successful');
+                this.clearSession();
                 callback?.();
+                window.location.href = '/rr/sign-in/';
+            } else {
+                console.log('Sign out request failed, but clearing session anyway');
+                this.clearSession();
+                window.location.href = '/rr/sign-in/';
             }
         } catch (error) {
             console.error('Logout error:', error);
-            window.location.href = '/rr/sign-in'
-        } finally {
             this.clearSession();
+            window.location.href = '/rr/sign-in/';
         }
     }
 }

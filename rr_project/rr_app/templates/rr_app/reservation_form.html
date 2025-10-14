@@ -1,0 +1,35 @@
+{% extends "rr_app/base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'rr_app/css/reservation_form.css' %}">
+
+<div class="background"></div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="logo">
+    <img src="{% static 'rr_app/images/cloche.png' %}" alt="Logo">
+    <span class="brand">RESTAURANT RESERVATION</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="{% url 'auth:dashboard' %}">Home</a></li>
+    <li><a href="{% url 'auth:reservation_form' %}">Reservation Form</a></li>
+    <li><a href="{% url 'auth:reservation_management' %}">My Reservations</a></li>
+    <li><a href="#">Favorites</a></li>
+    <li><a href="#">Profile</a></li>
+    <li><a href="#">Logout</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+  <div class="reservation-container">
+    <h2>Make a Reservation</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Submit Reservation</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

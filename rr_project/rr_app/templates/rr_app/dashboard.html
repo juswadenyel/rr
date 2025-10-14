@@ -15,12 +15,14 @@
       <span class="brand">RESTAURANT RESERVATION</span>
     </div>
     <ul class="nav-links">
-      <li><a href="#">Home</a></li>
-      <li><a href="#">My Reservations</a></li>
+      <li><a href="{% url 'auth:dashboard' %}">Home</a></li>
+      <li><a href="{% url 'auth:reservation_form' %}">Reservation Form</a></li>
+      <li><a href="{% url 'auth:reservation_management' %}">My Reservations</a></li>
       <li><a href="#">Favorites</a></li>
       <li><a href="#">Profile</a></li>
       <li><a href="#">Logout</a></li>
     </ul>
+
   </nav>
 
   <!-- Dashboard Content -->

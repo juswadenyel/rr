@@ -1,0 +1,122 @@
+/* Reset */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  height: 100%;
+  color: white;
+}
+
+/* Background overlay */
+.background {
+  background: url('../images/dashboard_background.png') no-repeat center center fixed;
+  background-size: cover;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: -1;
+  filter: brightness(0.5);
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background: rgba(0,0,0,0.6);
+}
+
+.navbar .logo {
+  display: flex;
+  align-items: center;
+}
+
+.navbar .logo img {
+  width: 35px;
+  margin-right: 10px;
+}
+
+.navbar .brand {
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: #ff6a00;
+}
+
+.container {
+  margin: 100px auto 50px auto;
+  max-width: 500px;
+  text-align: center;
+}
+
+.reservation-container {
+  background: rgba(255, 255, 255, 0.12);
+  padding: 25px 35px;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.reservation-container:hover {
+  transform: scale(1.02);
+}
+
+.reservation-container h2 {
+  color: #ff6a00;
+  margin-bottom: 20px;
+}
+
+input, textarea, select {
+  width: 95%;
+  padding: 10px 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 10px;
+  background-color: rgba(255,255,255,0.9);
+  color: #000;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+input:focus, textarea:focus, select:focus {
+  box-shadow: 0 0 0 2px #ff6a00;
+}
+
+button {
+  width: 100%;
+  background-color: #ff6a00;
+  color: white;
+  padding: 10px 0;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+button:hover {
+  background-color: #e55a00;
+  transform: scale(1.03);
+}
+
+textarea {
+  min-height: 70px;
+  resize: vertical;
+}

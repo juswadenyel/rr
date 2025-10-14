@@ -173,3 +173,27 @@ class Session(models.Model):
 
     def __str__(self):
         return f"Session for {self.user.email}"
+    
+
+class Reservation(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='reservations',
+        null=True,
+        blank=True
+    )
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    date = models.DateField()
+    time = models.TimeField()
+    guest = models.IntegerField()
+    notes = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'reservations'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Reservation by {self.name} on {self.date} at {self.time}"

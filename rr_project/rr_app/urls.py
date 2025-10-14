@@ -2,6 +2,7 @@
 from django.urls import path
 from .views.auth import views
 from .views import dashboard
+from .views.auth import reservations
 
 app_name = 'auth'
 
@@ -18,11 +19,13 @@ urlpatterns = [
     path('api/get-current-user', views.get_current_user, name='api_get_current_user'),
     path('api/sign-out', views.signout, name='api_signout'),
     
-    path('sign-in', views.signin_page, name='signin_page'),
+    path('sign-in/', views.signin_page, name='signin_page'),
     path('sign-up', views.signup_page, name='signup_page'),
     path('forgot-password', views.forgot_password_page, name='forgot_password_page'),
     path('reset-password', views.reset_password_page, name='reset_password_page'),
     path('verify-account', views.verify_account_page, name='verify_account_page'),
 
-    path('dashboard', dashboard.dashboard_render, name='dashboard'),
+    path('dashboard/', dashboard.dashboard_render, name='dashboard'),
+    path('form/', reservations.reservation_form, name='reservation_form'),
+    path('manage/', reservations.reservation_management, name='reservation_management'),
 ]

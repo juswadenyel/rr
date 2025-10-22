@@ -31,14 +31,26 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# Supabase Configuration
-SUPABASE_URL = config('SUPABASE_URL')
-SUPABASE_ANON_KEY = config('SUPABASE_ANON_KEY')
-SUPABASE_SERVICE_ROLE_KEY = config('SUPABASE_SERVICE_ROLE_KEY') 
+# Media
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') 
 
-if not SUPABASE_URL or not SUPABASE_ANON_KEY:
-    raise ValueError("SUPABASE_URL and SUPABASE_ANON_KEY must be set in environment variables")
+# Authentication Configuration
+AUTH_USER_MODEL = 'rr_app.User'
+LOGIN_URL = '/auth/login/'
+LOGIN_REDIRECT_URL = '/dashboard/'
+LOGOUT_REDIRECT_URL = '/auth/login/'
 
+# Supabase Configuration (Disabled for Django Auth migration)
+# SUPABASE_URL = config('SUPABASE_URL')
+# SUPABASE_ANON_KEY = config('SUPABASE_ANON_KEY')
+# SUPABASE_SERVICE_ROLE_KEY = config('SUPABASE_SERVICE_ROLE_KEY') 
+
+# if not SUPABASE_URL or not SUPABASE_ANON_KEY:
+#     raise ValueError("SUPABASE_URL and SUPABASE_ANON_KEY must be set in environment variables")
+
+# Email Configuration for password reset
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # For development
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_PORT = config('EMAIL_PORT')
 EMAIL_USE_TLS = True
@@ -104,22 +116,18 @@ DATABASES = {
     )
 }
 
+print(DATABASES)
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'rr_app.utils.validators.MinimumLengthAndNumberValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
     },
 ]
 
@@ -146,3 +154,11 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Custom User Model
+AUTH_USER_MODEL = 'rr_app.User'
+
+# Login/Logout URLs
+LOGIN_URL = '/rr/auth/login/'
+LOGIN_REDIRECT_URL = '/rr/dashboard/'
+LOGOUT_REDIRECT_URL = '/rr/auth/login/'

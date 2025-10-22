@@ -1,31 +1,31 @@
 # urls.py
 from django.urls import path
-from .views.auth import views
-from .views import dashboard
-from .views.auth import reservations
+from .views import auth
+from .views import restaurant
 
-app_name = 'auth'
+app_name = 'rr_app'
 
 urlpatterns = [
-    path('api/sign-up', views.signup, name='api_signup'),
-    path('api/verify-status', views.verify_status, name='api_verify_status'),
-    path('api/verify-account', views.verify_account, name='api_verify_account'),
-    path('api/sign-in', views.signin, name='api_signin'),
-    path('api/send-code-to-mail', views.send_code_to_mail, name='api_send_code'),
-    path('api/verify-code', views.verify_code, name='api_verify_code'),
-    path('api/reset-password', views.reset_password, name='api_reset_password'),
-    path('api/refresh-token', views.refresh_token, name='api_refresh_token'),
-    path('api/validate-session', views.validate_session, name='api_validate_session'),
-    path('api/get-current-user', views.get_current_user, name='api_get_current_user'),
-    path('api/sign-out', views.signout, name='api_signout'),
+    # Authentication URLs
+    path('auth/signup/', auth.signup_view, name='signup'),
+    path('auth/login/', auth.login_view, name='login'),
+    path('auth/logout/', auth.logout_view, name='logout'),
     
-    path('sign-in/', views.signin_page, name='signin_page'),
-    path('sign-up', views.signup_page, name='signup_page'),
-    path('forgot-password', views.forgot_password_page, name='forgot_password_page'),
-    path('reset-password', views.reset_password_page, name='reset_password_page'),
-    path('verify-account', views.verify_account_page, name='verify_account_page'),
-
-    path('dashboard/', dashboard.dashboard_render, name='dashboard'),
-    path('form/', reservations.reservation_form, name='reservation_form'),
-    path('manage/', reservations.reservation_management, name='reservation_management'),
+    # Email Verification URLs
+    path('auth/verify-email/<uuid:token>/', auth.verify_email_view, name='verify_email'),
+    path('auth/resend-verification/<int:user_id>/', auth.resend_verification_email_view, name='resend_verification'),
+    
+    # Forgot Password URLs (Custom implementation)
+    path('auth/forgot-password/', auth.forgot_password_view, name='forgot_password'),
+    path('auth/verify-reset-code/', auth.verify_reset_code_view, name='verify_reset_code'),
+    path('auth/reset-password/', auth.reset_password_view, name='reset_password'),
+    path('auth/resend-reset-code/', auth.resend_reset_code_view, name='resend_reset_code'),
+    
+    # Main application URLs
+    path('dashboard/', restaurant.dashboard_view, name='dashboard'),
+    path('reservation/manage/', restaurant.reservation_management_view, name='reservation_management'),
+    path('restaurant/<int:restaurant_id>/', restaurant.restaurant_detail_view, name='restaurant_detail'),
+    
+    # Redirect root to login
+    path('', auth.login_view, name='home'),
 ]

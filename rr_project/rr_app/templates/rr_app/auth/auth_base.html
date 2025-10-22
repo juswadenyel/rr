@@ -7,32 +7,52 @@
 {% endblock %}
 
 {% block content %}
-  <div class="logo">
-    <img src="{% static 'rr_app/images/cloche.png' %}" alt="Logo">
-    <p class="title">RESTAURANT</p>
-    <p class="subtitle">RESERVATION</p>
-  </div>
+  <div class="auth-layout">
+    <!-- Left Side - Logo & Branding -->
+    <div class="logo-section">
+      <div class="logo">
+        <img src="{% static 'rr_app/images/cloche.png' %}" alt="Logo">
+        <p class="title">RESTAURANT</p>
+        <p class="subtitle">RESERVATION</p>
+      </div>
+      
+      <div class="brand-description">
+        <h3>Experience Culinary Excellence</h3>
+        <p>Book your table at our finest restaurants and enjoy an unforgettable dining experience with exceptional cuisine and service.</p>
+        <p>Join thousands of satisfied customers who trust us for their dining reservations.</p>
+      </div>
+    </div>
 
-  <div class="container">
-    {% block page_title %}{% endblock %}
-    
-    <form>
-      {% block form_fields %}{% endblock %}
-      
-      <input type="button" value="Submit" id="btn_submit">
-      
-      {% block form_footer %}{% endblock %}
-      
-      <p class="error-msg" id="error_msg"></p>
-    </form>
+    <!-- Right Side - Form Container -->
+    <div class="form-section">
+      <div class="container">
+        {% block page_title %}{% endblock %}
+        
+        {% block form_content %}
+          <form method="post" class="auth-form">
+            {% csrf_token %}
+            
+            {% block form_fields %}{% endblock %}
+            
+            {% block form_button %}
+              <button type="submit" class="btn_submit" id="btn_submit">Submit</button>
+            {% endblock %}
+
+            <!-- Error Message Display -->
+            <div class="error-msg{% if first_error %} show{% endif %}">{% if first_error %}{{ first_error }}{% endif %}</div>
+            
+            {% block form_footer %}{% endblock %}
+
+          </form>
+        {% endblock %}
+      </div>
+    </div>
   </div>
 {% endblock %}
 
 {% block extra_js %}
-  <script src="{% static 'rr_app/js/auth/ErrorMessage.js' %}"></script>
-  <script src="{% static 'rr_app/js/auth/FieldInputKeyListener.js' %}"></script>
-  <script src="{% static 'rr_app/js/auth/AuthFieldValidator.js' %}"></script>
   <script src="{% static 'rr_app/js/auth/password_toggle.js' %}"></script>
-
+  <script src ="{% static 'rr_app/js/util/ErrorMessage.js' %}"></script>
+  <script src ="{% static 'rr_app/js/auth/remove_error_msg_on_input.js' %}"></script>
   {% block auth_js %}{% endblock %}
 {% endblock %}

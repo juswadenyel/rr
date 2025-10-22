@@ -8,10 +8,17 @@ class MessageBox {
         this.btn_primary = document.getElementById('msgbx_btn_primary');
         this.inputContainer = null;
         this.input = null;
-        this.currentThemeMode = 'light';
+        this.currentThemeMode = null;
         this.setThemeMode('light');
         this.initEnter();
+        this.initBtnOnCLick();
         this.createInputContainer();
+    }
+
+    initBtnOnCLick() {
+        this.btn.onclick = () => {
+            this.hide();
+        };
     }
 
     createInputContainer() {

@@ -1,89 +1,83 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const btnVerify = document.getElementById('btn_verify');
-    const nameElement = document.getElementById('name');
-    const emailElement = document.getElementById('email');
-    const statusElement = document.getElementById('status');
-    const statusContainer = document.getElementById('verification_status');
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get("token");
-    let currentEmail = null;
+// Verify Account JavaScript functionality
 
-    window.ApiCaller.postRequest('/rr/api/verify-status', { token: token }).then(response => {
-        // Always update the display info if data exists
-        const data = response.data || {};
-        
-        nameElement.textContent = data.name || 'N/A';
-        emailElement.textContent = data.email || 'N/A';
-        statusElement.textContent = `STATUS: ${String(data.state || 'UNKNOWN').toUpperCase()}`;
-        currentEmail = data.email;
-
-        // Reset status container classes
-        statusContainer.className = 'status-badge';
-
-        // Handle different states
-        switch (data.state) {
-            case 'Pending':
-                statusContainer.classList.add('status-pending');
-                btnVerify.disabled = false;
-                console.log('State: Pending - Button enabled');
-                break;
-
-            case 'Expired':
-                statusContainer.classList.add('status-expired');
-                btnVerify.disabled = true;
-                btnVerify.textContent = 'Token Expired';
-                console.log('State: Expired - Button disabled');
-                break;
-
-            case 'Verified':
-                statusContainer.classList.add('status-verified');
-                btnVerify.disabled = true;
-                btnVerify.textContent = 'Already Verified';
-                console.log('State: Verified - Button disabled');
-                break;
-
-            default:
-                statusContainer.classList.add('status-expired');
-                btnVerify.disabled = true;
-                btnVerify.textContent = 'Invalid Token';
-                console.log('State: Unknown - Button disabled');
-                break;
+function resendVerificationEmail(userId) {
+    const button = document.getElementById('btn_resend');
+    const messageContainer = document.getElementById('message-container');
+    
+    // Disable button during request
+    button.disabled = true;
+    button.textContent = 'Sending...';
+    
+    // Clear previous messages
+    messageContainer.innerHTML = '';
+    
+    fetch(`/rr/auth/resend-verification/${userId}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
         }
-    }).catch(error => {
-        console.error("Network or server error:", error);
-        window.MessageBox.showError("Unable to reach the server. Please try again later.", () => {
-            window.MessageBox.hide();
-        });
-    });
-
-    btnVerify.addEventListener('click', () => {
-        if (!currentEmail) {
-            window.MessageBox.showError("No email found to verify.", () => {
-                window.MessageBox.hide();
-            });
-            return;
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showMessage(data.message, 'success');
+        } else {
+            showMessage(data.message, 'error');
         }
-
-        window.MessageBox.showConfirm('Are you sure you want to verify account registration?', () => {
-            window.ApiCaller.postRequest('/rr/api/verify-account', { 
-                email: currentEmail
-            }).then(response => {
-                if (response.success) {
-                    window.MessageBox.showSuccess('Email has been verified. You can now login.', () => {
-                        window.location.href = '/rr/sign-in';
-                        window.MessageBox.hide();
-                    });
-                } else {
-                    window.MessageBox.showError(response.message, () => {
-                        window.MessageBox.hide();
-                    });
-                }
-            }).catch(error => {
-                console.error("Network or server error:", error);
-                window.MessageBox.showError("Unable to reach the server. Please try again later.", () => {
-                    window.MessageBox.hide();
-                });
-            });
-        });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showMessage('An error occurred while sending the verification email.', 'error');
+    })
+    .finally(() => {
+        // Re-enable button
+        button.disabled = false;
+        button.textContent = 'Resend Verification Email';
     });
+}
+
+function showMessage(message, type) {
+    const messageContainer = document.getElementById('message-container');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `alert alert-${type}`;
+    messageDiv.style.cssText = `
+        padding: 12px;
+        margin: 10px 0;
+        border-radius: 4px;
+        ${type === 'success' ? 
+            'background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;' : 
+            'background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;'
+        }
+    `;
+    messageDiv.textContent = message;
+    messageContainer.appendChild(messageDiv);
+    
+    // Auto-remove message after 5 seconds
+    setTimeout(() => {
+        if (messageDiv.parentNode) {
+            messageDiv.parentNode.removeChild(messageDiv);
+        }
+    }, 5000);
+}
+
+// Function to get CSRF token from cookies
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Verify account page loaded');
 });

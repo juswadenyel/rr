@@ -1,0 +1,175 @@
+{% extends 'rr_app/restaurant/rr_base.html' %}
+{% load static %}
+
+{% block title %}{{ restaurant.name }} - Restaurant Detail{% endblock %}
+
+{% block rr_base_css %}
+<link rel="stylesheet" href="{% static 'rr_app/css/restaurant_detail.css' %}">
+{% endblock %}
+
+{% block rr_base_content %}
+<div class="restaurant-container">
+    <!-- Restaurant Header Section -->
+    <div class="restaurant-header">
+        <div class="restaurant-image">
+            {% if restaurant %}
+                <img src="{{ restaurant.image_url.url }}" alt="{{ restaurant.name }}" id="restaurant-image">
+            {% else %}
+                <div class="placeholder-image">
+                    <img src="{% static 'rr_app/images/restaurant-placeholder.svg' %}" alt="Restaurant placeholder">
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="restaurant-info">
+            <h1 class="restaurant-name" id="restaurant-name">{{ restaurant.name }}</h1>
+            
+            <!-- Reviews Section -->
+            <div class="reviews-section" id="reviews-section">
+                <div class="rating-stars" data-rating="{{ avg_rating|default:0 }}"></div>
+                <div class="review-count">
+                    {{ reviews|length }} review{{ reviews|length|pluralize }}
+                </div>
+            </div>
+            
+            <!-- Tags Section -->
+            <div class="tags-section" id="tags-section">
+                {% for tag in restaurant.tags.all %}
+                    <span class="tag">{{ tag.tag }}</span>
+                {% endfor %}
+            </div>
+            
+            <!-- Quick Info -->
+            <div class="quick-info">
+                <div class="info-item">
+                    <span class="info-label">Cuisine Type:</span>
+                    <span class="info-value cuisine-type" id="cuisine-type">{{ restaurant.cuisine_type }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Average Price:</span>
+                    <span class="info-value price-value" id="average-price">P{{ restaurant.price|floatformat:2 }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Since:</span>
+                    <span class="info-value created-date" id="created-date">{{ restaurant.created_at|date:"F Y" }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content Section -->
+    <div class="restaurant-content">
+        <div class="left-column">
+            <!-- Description Section -->
+            <div class="section description-section">
+                <h2>About {{ restaurant.name }}</h2>
+                <p class="description" id="restaurant-description">{{ restaurant.description }}</p>
+            </div>
+            
+            <!-- Contact Information -->
+            <div class="section contact-section">
+                <h2>Contact & Location</h2>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span class="contact-icon">📍</span>
+                        <div class="contact-details">
+                            <span class="contact-label">Address</span>
+                            <span class="contact-value address-value" id="restaurant-address">{{ restaurant.address }}</span>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📧</span>
+                        <div class="contact-details">
+                            <span class="contact-label">Email</span>
+                            <a href="mailto:{{ restaurant.email }}" class="contact-value email-value" id="restaurant-email">{{ restaurant.email }}</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📞</span>
+                        <div class="contact-details">
+                            <span class="contact-label">Phone Number</span>
+                            <a href="tel:{{ restaurant.phone_number }}" class="contact-value phone-value" id="restaurant-phone">{{ restaurant.phone_number }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Reviews Section -->
+            <div class="section reviews-list-section">
+                <h2>Recent Reviews</h2>
+                <div class="reviews-list" id="reviews-list">
+                    {% if reviews %}
+                        {% for review in reviews %}
+                            <div class="review-item">
+                                <div class="review-header">
+                                    <div class="reviewer-info">
+                                        <span class="reviewer-name">
+                                            {{ review.customer.user.first_name }} {{ review.customer.user.last_name|first }}.
+                                        </span>
+                                        <div class="review-stars" data-rating="{{ avg_rating|default:0 }}"></div>
+                                    </div>
+                                    <span class="review-date">{{ review.created_at|date:"M d, Y" }}</span>
+                                </div>
+                                <p class="review-comment">{{ review.comment }}</p>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="no-reviews">No reviews yet. Be the first to review!</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Reservation Section -->
+        <div class="right-column">
+            <div class="section reservation-section">
+                <h2>Make a Reservation</h2>
+                <div class="reservation-card">
+                    <form id="reservation-form" class="reservation-form" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" id="restaurant-id" value="{{ restaurant.id }}">
+                        
+                        <div class="form-group">
+                            <label for="guest-name">Full Name</label>
+                            {{ reserve_form.name }}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="guest-email">Email Address</label>
+                            {{ reserve_form.email }}
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="reservation-date">Date</label>
+                                {{ reserve_form.date }}
+                            </div>
+                            <div class="form-group">
+                                <label for="reservation-time">Time</label>
+                                {{ reserve_form.time }}
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="guest-count">Number of Guests</label>
+                            {{ reserve_form.guest_count }}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="special-notes">Special Requests (Optional)</label>
+                            {{ reserve_form.notes }}
+                        </div>
+                        
+                        <button type="submit" class="reserve-btn" id="reserve-btn">Make Reservation</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block rr_base_js %}
+<script src="{% static 'rr_app/js/restaurant_detail.js' %}"></script>
+<script src="{% static 'rr_app/js/dashboard/stars.js' %}"></script>
+{% endblock %}

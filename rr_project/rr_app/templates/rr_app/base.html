@@ -10,6 +10,8 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 
+
+
   <!-- CSS Files -->
   <link rel="stylesheet" href="{% static 'rr_app/css/messagebox.css' %}">
   <link rel="stylesheet" href="{% static 'rr_app/css/spinner.css' %}">
@@ -18,6 +20,7 @@
 </head>
 <body>
   
+
   {% block content %}
   <!-- Page content goes here -->
   {% endblock %}
@@ -42,12 +45,21 @@
     </div>
   </div>
 
-  <!-- JS Files -->
+   {% if messages %}
+  <script id="djangoMessages" type="application/json">
+    [
+      {% for message in messages %}
+      {
+        "level": {{ message.level }},
+        "text": "{{ message|escapejs }}"
+      }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ]
+  </script>
+  {% endif %}
   <script src="{% static 'rr_app/js/util/MessageBox.js' %}"></script>
   <script src="{% static 'rr_app/js/util/LoadingOverlay.js' %}"></script>
-  <script src="{% static 'rr_app/js/auth/Auth.js' %}"></script>
-  <script src="{% static 'rr_app/js/ApiCaller.js' %}"></script>
-
+  <script src ="{% static 'rr_app/js/common/base_loaded.js' %}"></script>
   {% block extra_js %}{% endblock %}
 </body>
 </html>

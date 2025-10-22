@@ -8,92 +8,534 @@ body, html {
 
 .background {
   background: url('../images/dashboard_background.png') no-repeat center center fixed;
-  background-size: cover;
+  background-size: 110%; /* Zoom the background image */
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
   z-index: -1;
-  filter: brightness(0.5);
+  filter: brightness(0.8) saturate(1.2) contrast(1.1);
 }
 
-/* Navbar */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 40px;
-  background: rgba(0,0,0,0.6);
-}
-
-.navbar .logo {
+/* Hero Section */
+.hero-section {
+  min-height: 80vh; /* Increased from 80vh to make hero section bigger */
   display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  z-index: 10;
 }
 
-.navbar .logo img {
-  width: 35px;
+.hero-content {
+  min-width: 900px;
+  padding: 0 30px;
+}
+
+.hero-title {
+  font-size: 4rem; /* Increased font size */
+  font-weight: bold;
+  color: white;
+  margin: 0 0 25px 0; /* Increased margin */
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
+
+.hero-subtitle {
+  font-size: 1.4rem; /* Increased font size */
+  color: white;
+  margin: 0 0 50px 0; /* Increased margin */
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+}
+
+.search-card {
+  background: white;
+  border-radius: 15px;
+  padding: 50px; /* Increased padding for more breathing room */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  margin: 0 auto;
+  max-width: 1200px; /* Increased max width to allow much wider form */
+}
+
+.search-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 50px; /* Significantly increased gap for much more space between fields */
+  align-items: center;
+}
+
+.search-field input,
+.search-field select {
+  width: 100%;
+  padding: 18px; /* Increased padding to make fields larger */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px; /* Increased font size for better readability */
+  color: #333;
+}
+
+.search-field input:focus,
+.search-field select:focus {
+  outline: none;
+  border-color: #D4530A;
+}
+
+.search-button {
+  background-color: #D4530A;
+  color: white;
+  padding: 18px 30px; /* Increased padding */
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px; /* Increased font size */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-button:hover {
+  background-color: #B8440A;
+}
+
+/* Featured Restaurants Section */
+.featured-restaurants-section {
+  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('../images/dashboard_background.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  padding: 80px 0;
+  position: relative;
+  z-index: 5;
+}
+
+.featured-restaurants-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.restaurant-swiper-container {
+  margin-top: 50px;
+  position: relative;
+}
+
+.restaurant-swiper {
+  display: flex;
+  overflow: hidden;
+  border-radius: 25px;
+  background: white;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(212, 83, 10, 0.1);
+  min-height: 550px;
+  position: relative;
+  background: linear-gradient(145deg, #ffffff 0%, #fafafa 100%);
+}
+
+.restaurant-card {
+  display: none;
+  width: 100%;
+  animation: slideIn 0.5s ease-out;
+}
+
+.restaurant-card.active {
+  display: flex;
+}
+
+.restaurant-card-left {
+  flex: 1;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 550px;
+  background-color: #333; /* Fallback color */
+  background-image: linear-gradient(45deg, #666, #444); /* Fallback gradient */
+  transition: transform 0.3s ease;
+  overflow: hidden;
+}
+
+.restaurant-card-left::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(212, 83, 10, 0.15) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.6) 100%);
+  transition: opacity 0.3s ease;
+}
+
+.restaurant-card:hover .restaurant-card-left::before {
+  opacity: 0.8;
+}
+
+.restaurant-card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.8));
+  padding: 40px 30px 30px;
+  color: white;
+}
+
+.restaurant-name {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin: 0 0 15px 0;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
+
+.restaurant-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.book-button {
+  background-color: #D4530A;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.book-button:hover {
+  background-color: #B8440A;
+  transform: translateY(-2px);
+}
+
+.bookmark-button {
+  background: rgba(255,255,255,0.2);
+  color: white;
+  padding: 12px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  backdrop-filter: blur(10px);
+}
+
+.bookmark-button:hover {
+  background: rgba(255,255,255,0.3);
+  border-color: rgba(255,255,255,0.5);
+}
+
+.bookmark-button svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.restaurant-card-right {
+  flex: 1;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(250, 250, 250, 0.9) 100%);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.restaurant-card-right::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(212, 83, 10, 0.05) 0%, transparent 70%);
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+.restaurant-card:hover .restaurant-card-right::before {
+  opacity: 1;
+}
+
+.restaurant-info h3 {
+  color: #333;
+  font-size: 1.8rem;
+  margin: 0 0 25px 0;
+  font-weight: bold;
+  background: linear-gradient(135deg, #333 0%, #D4530A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  z-index: 2;
+}
+
+.restaurant-details {
+  margin-bottom: 25px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  color: #666;
+  font-size: 1rem;
+}
+
+.detail-item svg {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  fill: #D4530A;
+  flex-shrink: 0;
+}
+
+.restaurant-rating {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.stars {
+  display: flex;
   margin-right: 10px;
 }
 
-.navbar .brand {
-  font-weight: bold;
-  letter-spacing: 1px;
+.stars svg {
+  width: 18px;
+  height: 18px;
+  fill: #FFD700;
+  margin-right: 2px;
 }
 
-.nav-links {
-  list-style: none;
+.rating-text {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.restaurant-description {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+.restaurant-tags {
   display: flex;
-  gap: 25px;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.nav-links a {
-  text-decoration: none;
+.tag {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  color: #495057;
+  padding: 8px 16px;
+  border-radius: 25px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid rgba(212, 83, 10, 0.2);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.tag:hover {
+  background: linear-gradient(135deg, #D4530A 0%, #B8440A 100%);
   color: white;
-  font-weight: 500;
-  transition: 0.3s;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 83, 10, 0.3);
 }
 
-.nav-links a:hover {
-  color: #ff6a00;
+/* Pagination Dots */
+.swiper-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  gap: 10px;
 }
 
-/* Content */
-.container {
-  margin: 60px auto;
-  max-width: 1000px;
-  text-align: center;
+.pagination-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(255,255,255,0.4);
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
-.container h1 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
+.pagination-dot.active {
+  background-color: #D4530A;
+  transform: scale(1.3);
 }
 
-.cards {
-  margin-top: 40px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
+.pagination-dot:hover {
+  background-color: rgba(255,255,255,0.6);
 }
 
-.card {
-  background: rgba(0,0,0,0.6);
-  padding: 20px;
-  border-radius: 10px;
-  text-align: left;
+/* Animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-.card h2 {
-  margin-bottom: 10px;
-  color: #ff6a00;
+/* How It Works Section */
+.how-it-works-section {
+  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../images/dashboard_background.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  padding: 80px 0;
+  position: relative;
+  z-index: 5;
 }
 
-.card a {
-  color: #ff6a00;
-  text-decoration: none;
+.how-it-works-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section-title {
+  font-size: 3rem;
   font-weight: bold;
+  color: white;
+  text-align: center;
+  margin: 0 0 15px 0;
 }
 
-.card a:hover {
-  text-decoration: underline;
+.section-subtitle {
+  color: white;
+  font-size: 1.25rem;
+  text-align: center;
+  margin: 0 0 40px 0;
+  opacity: 0.9;
+}
+
+.steps-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.step-card {
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  background-color: #D4530A;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 auto 20px auto;
+}
+
+.step-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0 0 15px 0;
+}
+
+.step-description {
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 3rem; /* Increased from 2.5rem */
+  }
+  
+  .search-form {
+    grid-template-columns: 1fr;
+    gap: 40px; /* Increased for mobile spacing */
+  }
+  
+  .navbar {
+    padding: 22px 38px; /* 150% of responsive size */
+  }
+  
+  .nav-links {
+    gap: 30px; /* 150% of responsive size */
+  }
+  
+  .nav-links a {
+    font-size: 1.2rem; /* Responsive scaling for navbar links */
+  }
+  
+  .navbar .brand {
+    font-size: 1.3rem; /* Responsive scaling for brand */
+  }
+  
+  .steps-container {
+    grid-template-columns: 1fr;
+    gap: 25px; /* Added gap for mobile */
+  }
+  
+  .search-card {
+    padding: 35px; /* Reduced but still generous for mobile */
+  }
+  
+  /* Featured Restaurants Mobile */
+  .restaurant-card {
+    flex-direction: column;
+  }
+  
+  .restaurant-card-left {
+    min-height: 300px;
+  }
+  
+  .restaurant-name {
+    font-size: 1.8rem;
+  }
+  
+  .restaurant-card-right {
+    padding: 30px;
+  }
+  
+  .restaurant-info h3 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.5rem; /* Increased from 2rem */
+  }
+  
+  .search-card {
+    padding: 30px; /* Increased from 20px */
+  }
+  
+  .navbar .brand {
+    font-size: 1.1rem; /* Responsive scaling for very small screens */
+  }
+  
+  .hero-subtitle {
+    font-size: 1.2rem; /* Reduced slightly for small screens */
+  }
+  
+  .section-title {
+    font-size: 2.5rem; /* Reduced for small screens */
+  }
 }

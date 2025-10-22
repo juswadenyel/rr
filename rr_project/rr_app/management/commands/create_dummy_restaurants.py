@@ -167,7 +167,7 @@ class Command(BaseCommand):
                     if response.status_code == 200:
                         # Create filename
                         image_name = f"restaurant_{restaurant.id}_{unique_name.lower().replace(' ', '_').replace('&', 'and')}.jpg"
-                        restaurant.image_url.save(
+                        restaurant.image.save(
                             image_name,
                             ContentFile(response.content),
                             save=True

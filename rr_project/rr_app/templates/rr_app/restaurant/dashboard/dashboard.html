@@ -49,8 +49,13 @@
       <div class="restaurant-swiper" id="restaurantSwiper">
         {% for restaurant in restaurants %}
         <div class="restaurant-card{% if forloop.first %} active{% endif %}">
+          {% if restaurant.image %}
           <div class="restaurant-card-left"
-            style= "background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('{{ restaurant.image }}')">
+            style= "background-image: url('{{ restaurant.image.url }}')">
+          {% else %}
+          <div class="restaurant-card-left"
+            style= "background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)')">
+           {% endif %}
             <div class="restaurant-card-overlay">
               <h3 class="restaurant-name">{{ restaurant.name }}</h3>
               <div class="restaurant-actions">

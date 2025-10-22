@@ -42,12 +42,12 @@ LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/auth/login/'
 
 # Supabase Configuration (Disabled for Django Auth migration)
-# SUPABASE_URL = config('SUPABASE_URL')
-# SUPABASE_ANON_KEY = config('SUPABASE_ANON_KEY')
-# SUPABASE_SERVICE_ROLE_KEY = config('SUPABASE_SERVICE_ROLE_KEY') 
+SUPABASE_URL = config('SUPABASE_URL')
+SUPABASE_ANON_KEY = config('SUPABASE_ANON_KEY')
+SUPABASE_SERVICE_ROLE_KEY = config('SUPABASE_SERVICE_ROLE_KEY') 
 
-# if not SUPABASE_URL or not SUPABASE_ANON_KEY:
-#     raise ValueError("SUPABASE_URL and SUPABASE_ANON_KEY must be set in environment variables")
+if not SUPABASE_URL or not SUPABASE_ANON_KEY:
+    raise ValueError("SUPABASE_URL and SUPABASE_ANON_KEY must be set in environment variables")
 
 # Email Configuration for password reset
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # For development

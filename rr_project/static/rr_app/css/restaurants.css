@@ -1,0 +1,483 @@
+/* ================================ */
+/* RESTAURANTS PAGE STYLES */
+/* ================================ */
+
+@import 'design-tokens.css';
+
+/* ============ LAYOUT STRUCTURE ============ */
+
+.main-container {
+  display: flex;
+  min-height: 100vh;
+  gap: var(--space-8);
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--space-8);
+}
+
+.left-container {
+  flex: 0 0 320px;
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-base);
+  padding: var(--space-6);
+  height: fit-content;
+  position: sticky;
+  top: var(--space-8);
+}
+
+.right-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* ============ LOCATION BUTTON ============ */
+
+.locationButton {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--color-gray-50);
+  border: var(--border-1) solid var(--color-gray-200);
+  border-radius: var(--radius-base);
+  cursor: pointer;
+  transition: var(--transition-base);
+  margin-bottom: var(--space-6);
+}
+
+.locationButton:hover {
+  background: var(--color-gray-100);
+  border-color: var(--color-primary);
+}
+
+.locationButton svg {
+  width: 24px;
+  height: 24px;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.locationButton div p:first-child {
+  font-size: var(--font-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-700);
+  margin: 0;
+}
+
+.locationButton div p:last-child {
+  font-size: var(--font-xs);
+  color: var(--color-gray-500);
+  margin: 0;
+}
+
+/* ============ FILTER SECTIONS ============ */
+
+.filter-section {
+  margin-bottom: var(--space-6);
+}
+
+.filter-title {
+  font-size: var(--font-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-800);
+  margin-bottom: var(--space-3);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+.cuisines-filter,
+.tags-filter,
+.filter-by {
+  margin-bottom: var(--space-6);
+  position: relative;
+}
+
+.cuisines-filter::before {
+  content: 'CUISINES';
+  position: absolute;
+  top: calc(var(--space-3) * -1);
+  left: 0;
+  font-size: var(--font-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-600);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+.tags-filter::before {
+  content: 'DIETARY TAGS';
+  position: absolute;
+  top: calc(var(--space-3) * -1);
+  left: 0;
+  font-size: var(--font-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-600);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+.filter-by::before {
+  content: 'SORT BY';
+  position: absolute;
+  top: calc(var(--space-3) * -1);
+  left: 0;
+  font-size: var(--font-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-600);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+/* ============ FILTER LABELS ============ */
+
+.cuisines-filter label,
+.tags-filter label,
+.filter-by label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+  cursor: pointer;
+  font-size: var(--font-sm);
+  color: var(--color-gray-700);
+  transition: var(--transition-base);
+}
+
+.cuisines-filter label:hover,
+.tags-filter label:hover,
+.filter-by label:hover {
+  color: var(--color-primary);
+}
+
+.cuisines-filter input[type="checkbox"],
+.tags-filter input[type="checkbox"],
+.filter-by input[type="checkbox"],
+.filter-by input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  border: var(--border-2) solid var(--color-gray-300);
+  border-radius: var(--radius-sm);
+  background: var(--color-white);
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+
+.filter-by input[type="radio"] {
+  border-radius: var(--radius-full);
+}
+
+.cuisines-filter input[type="checkbox"]:checked,
+.tags-filter input[type="checkbox"]:checked,
+.filter-by input[type="checkbox"]:checked,
+.filter-by input[type="radio"]:checked {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.cuisines-filter p,
+.tags-filter p {
+  font-size: var(--font-xs);
+  color: var(--color-primary);
+  cursor: pointer;
+  margin-top: var(--space-2);
+  font-weight: var(--font-weight-medium);
+}
+
+.cuisines-filter p:hover,
+.tags-filter p:hover {
+  text-decoration: underline;
+}
+
+/* ============ SORT ORDER ============ */
+
+.sort-order {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: var(--border-1) solid var(--color-gray-200);
+}
+
+.sort-order span {
+  display: block;
+  font-size: var(--font-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-600);
+  margin-bottom: var(--space-2);
+}
+
+.sort-order label {
+  margin-right: var(--space-4);
+}
+
+/* ============ SEARCH BAR ============ */
+
+.searchbar {
+  display: flex;
+  align-items: center;
+  background: var(--color-white);
+  border: var(--border-1) solid var(--color-gray-300);
+  border-radius: var(--radius-base);
+  padding: var(--space-3);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-base);
+}
+
+.searchbar:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-primary);
+}
+
+.searchbar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: var(--font-base);
+  color: var(--color-gray-800);
+  background: transparent;
+}
+
+.searchbar input::placeholder {
+  color: var(--color-gray-400);
+}
+
+.searchbar button {
+  background: transparent;
+  border: none;
+  padding: var(--space-2);
+  color: var(--color-gray-400);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-base);
+}
+
+.searchbar button:hover {
+  color: var(--color-primary);
+  background: var(--color-gray-50);
+}
+
+/* ============ RESULTS COUNT ============ */
+
+.results-count {
+  font-size: var(--font-sm);
+  color: var(--color-gray-600);
+  margin-bottom: var(--space-4);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ============ RESTAURANT CARDS ============ */
+
+.restaurants-grid {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.card {
+  display: flex;
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-base);
+  overflow: hidden;
+  transition: var(--transition-base);
+  cursor: pointer;
+  min-height: 200px;
+  margin-bottom: var(--space-4);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.card .left {
+  flex: 0 0 280px;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--color-gray-200);
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+}
+
+.card .left::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%);
+}
+
+.card .center {
+  flex: 1;
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: var(--space-3);
+}
+
+.card .restaurant-name {
+  font-size: var(--font-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+  margin: 0;
+  line-height: var(--leading-tight);
+}
+
+.card .restaurant-cuisines {
+  font-size: var(--font-sm);
+  color: var(--color-gray-600);
+  margin: 0;
+  line-height: var(--leading-normal);
+  font-weight: var(--font-weight-medium);
+}
+
+.card .restaurant-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.card .restaurant-address,
+.card .restaurant-hours {
+  font-size: var(--font-xs);
+  color: var(--color-gray-500);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.card .restaurant-address svg,
+.card .restaurant-hours svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.card .restaurant-hours.open {
+  color: var(--color-success);
+}
+
+.card .restaurant-hours.closed {
+  color: var(--color-error);
+}
+
+.card .restaurant-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-2) 0;
+}
+
+.card .restaurant-tag {
+  font-size: var(--font-xs);
+  background: var(--color-primary);
+  color: var(--color-white);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+}
+
+.card .restaurant-rating {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.card .rating-text {
+  font-size: var(--font-sm);
+  color: var(--color-gray-600);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ============ STAR RATINGS ============ */
+
+.stars {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  color: var(--color-orange);
+}
+
+.stars svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* ============ RESPONSIVE DESIGN ============ */
+
+@media (max-width: 1024px) {
+  .main-container {
+    flex-direction: column;
+    padding: var(--space-4);
+  }
+  
+  .left-container {
+    flex: none;
+    position: static;
+    order: 2;
+  }
+  
+  .right-container {
+    order: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    flex-direction: column;
+    min-height: auto;
+  }
+  
+  .card .left {
+    flex: none;
+    height: 180px;
+  }
+  
+  .card .center {
+    padding: var(--space-4);
+    gap: var(--space-2);
+  }
+  
+  .main-container {
+    gap: var(--space-4);
+    padding: var(--space-3);
+  }
+  
+  .left-container {
+    padding: var(--space-4);
+  }
+  
+  .card .restaurant-name {
+    font-size: var(--font-lg);
+  }
+  
+  .card .restaurant-tags {
+    margin: var(--space-1) 0;
+  }
+  
+  .card .restaurant-tag {
+    padding: 2px var(--space-2);
+  }
+}
+
+@media (max-width: 480px) {
+  .card .restaurant-name {
+    font-size: var(--font-lg);
+  }
+  
+  .main-container {
+    padding: var(--space-2);
+  }
+  
+  .left-container {
+    padding: var(--space-3);
+  }
+  
+  .card .center {
+    padding: var(--space-3);
+  }
+}

@@ -91,7 +91,10 @@
                     <path
                       d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z" />
                   </svg>
-                  {{ restaurant.cuisine }} P {{ restaurant.price|floatformat:2 }}
+                  {% for cuisine in restaurant.cuisines.all %}
+                  {{ cuisine }}
+                  {% endfor %}
+                  P {{ restaurant.price|floatformat:2 }}
                 </div>
               </div>
 

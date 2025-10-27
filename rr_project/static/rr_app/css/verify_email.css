@@ -1,123 +1,136 @@
+/* ================================ */
+/* EMAIL VERIFICATION PAGE */
+/* ================================ */
+
+@import 'components.css';
+
+/* ============ LAYOUT ============ */
+
 .verify-container {
     max-width: 600px;
-    margin: 60px auto;
-    padding: 0 20px;
+    margin: var(--space-16) auto;
+    padding: 0 var(--space-5);
 }
 
 .verify-content {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background: var(--color-white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-base);
     overflow: hidden;
 }
 
-/* Logo Header */
+/* ============ HEADER ============ */
+
 .logo-header {
     text-align: center;
-    padding: 40px 40px 30px;
-    border-bottom: 1px solid #e5e7eb;
+    padding: var(--space-10) var(--space-10) var(--space-8);
+    border-bottom: var(--border-1) solid var(--color-gray-200);
 }
 
 .logo-header img {
     width: 60px;
     height: 60px;
-    margin-bottom: 15px;
+    margin-bottom: var(--space-4);
+    filter: drop-shadow(var(--shadow-sm));
 }
 
 .company-name {
-    font-size: 24px;
-    font-weight: 700;
-    color: #1f2937;
-    margin: 0 0 5px 0;
-    letter-spacing: 2px;
+    font-size: var(--font-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-gray-900);
+    margin: 0 0 var(--space-1) 0;
+    letter-spacing: var(--tracking-wide);
 }
 
 .company-tagline {
-    font-size: 12px;
-    font-weight: 500;
-    color: #6b7280;
+    font-size: var(--font-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-gray-500);
     margin: 0;
-    letter-spacing: 1.5px;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
 }
 
-/* Main Content */
+/* ============ MAIN CONTENT ============ */
+
 .verify-main {
-    padding: 40px;
+    padding: var(--space-10);
 }
 
 .verify-icon {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: var(--space-6);
 }
 
 .verify-icon svg {
     display: inline-block;
+    filter: drop-shadow(var(--shadow-sm));
 }
 
 .verify-title {
-    font-size: 28px;
-    font-weight: 700;
-    color: #1f2937;
+    font-size: var(--font-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-gray-900);
     text-align: center;
-    margin: 0 0 20px 0;
-    line-height: 1.3;
+    margin: 0 0 var(--space-5) 0;
+    line-height: var(--leading-snug);
 }
 
 .verify-description {
-    font-size: 16px;
-    color: #6b7280;
+    font-size: var(--font-base);
+    color: var(--color-gray-600);
     text-align: center;
-    line-height: 1.6;
-    margin: 0 0 30px 0;
+    line-height: var(--leading-relaxed);
+    margin: 0 0 var(--space-8) 0;
 }
 
-/* Status Badge */
+/* ============ STATUS BADGES ============ */
+
 .status-badge {
     text-align: center;
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 13px;
-    letter-spacing: 0.5px;
-    margin-bottom: 30px;
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-base);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-sm);
+    letter-spacing: var(--tracking-wide);
+    margin-bottom: var(--space-8);
     text-transform: uppercase;
-    border: 2px solid;
+    border: var(--border-2) solid;
 }
 
-/* 🟡 Pending */
+/* Status Variants */
 .status-pending {
-    background-color: #fef3c7;
-    color: #92400e;
-    border-color: #f59e0b;
+    background-color: var(--color-warning-bg);
+    color: var(--color-warning-text);
+    border-color: var(--color-warning);
 }
 
-/* 🟢 Verified */
 .status-verified {
-    background-color: #d1fae5;
-    color: #065f46;
-    border-color: #10b981;
+    background-color: var(--color-success-bg);
+    color: var(--color-success-text);
+    border-color: var(--color-success);
 }
 
-/* 🔴 Expired */
 .status-expired {
-    background-color: #fee2e2;
-    color: #991b1b;
-    border-color: #ef4444;
+    background-color: var(--color-error-bg);
+    color: var(--color-error-text);
+    border-color: var(--color-error);
 }
 
-/* Account Details */
+/* ============ ACCOUNT DETAILS ============ */
+
 .account-details {
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 30px;
+    background: var(--color-gray-50);
+    border: var(--border-1) solid var(--color-gray-200);
+    border-radius: var(--radius-base);
+    padding: var(--space-5);
+    margin-bottom: var(--space-8);
 }
 
 .detail-item {
     display: flex;
     flex-direction: column;
-    margin-bottom: 16px;
+    margin-bottom: var(--space-4);
 }
 
 .detail-item:last-child {
@@ -125,86 +138,137 @@
 }
 
 .detail-label {
-    font-size: 13px;
-    font-weight: 600;
-    color: #6b7280;
+    font-size: var(--font-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-gray-500);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 6px;
+    letter-spacing: var(--tracking-wide);
+    margin-bottom: var(--space-2);
 }
 
 .detail-value {
-    font-size: 16px;
-    font-weight: 500;
-    color: #1f2937;
+    font-size: var(--font-base);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-gray-900);
 }
 
-/* Buttons */
+/* ============ BUTTONS ============ */
+
 .btn-verify {
     width: 100%;
-    padding: 16px 32px;
-    background: linear-gradient(135deg, #D4530A 0%, #B8440A 50%, #ff8c00 100%);
-    color: white;
+    padding: var(--space-4) var(--space-8);
+    background: var(--gradient-primary);
+    color: var(--color-white);
     border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 600;
+    border-radius: var(--radius-base);
+    font-size: var(--font-base);
+    font-weight: var(--font-weight-semibold);
     cursor: pointer;
-    transition: all 0.3s ease;
-    margin-bottom: 12px;
-    letter-spacing: 0.3px;
+    transition: all var(--transition-slow);
+    margin-bottom: var(--space-3);
+    letter-spacing: var(--tracking-wide);
+    box-shadow: var(--shadow-primary);
+    text-transform: uppercase;
+    font-family: var(--font-primary);
 }
 
 .btn-verify:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(212, 83, 10, 0.3);
-    background: linear-gradient(135deg, #B8440A 0%, #D4530A 50%, #ff8c00 100%);
+    box-shadow: var(--shadow-primary-lg);
+    background: var(--gradient-primary-reverse);
+}
+
+.btn-verify:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: var(--shadow-primary);
 }
 
 .btn-verify:disabled {
     opacity: 0.5;
     cursor: not-allowed;
     transform: none;
+    box-shadow: var(--shadow-base);
 }
 
-/* Footer */
+/* ============ FOOTER ============ */
+
 .verify-footer {
-    margin-top: 35px;
-    padding-top: 25px;
-    border-top: 1px solid #e5e7eb;
+    margin-top: var(--space-9);
+    padding-top: var(--space-6);
+    border-top: var(--border-1) solid var(--color-gray-200);
     text-align: center;
 }
 
 .verify-footer p {
-    font-size: 14px;
-    color: #9ca3af;
+    font-size: var(--font-sm);
+    color: var(--color-gray-500);
     margin: 0;
-    line-height: 1.5;
+    line-height: var(--leading-normal);
 }
 
-/* Responsive */
+.verify-footer a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+    transition: color var(--transition-base);
+}
+
+.verify-footer a:hover {
+    color: var(--color-primary-hover);
+    text-decoration: underline;
+}
+
+/* ============ RESPONSIVE DESIGN ============ */
+
 @media (max-width: 640px) {
     .verify-container {
-        margin: 30px auto;
+        margin: var(--space-8) auto;
+        padding: 0 var(--space-3);
     }
 
     .logo-header {
-        padding: 30px 25px 20px;
+        padding: var(--space-8) var(--space-6) var(--space-5);
     }
 
     .verify-main {
-        padding: 30px 25px;
+        padding: var(--space-8) var(--space-6);
     }
 
     .verify-title {
-        font-size: 24px;
+        font-size: var(--font-2xl);
     }
 
     .verify-description {
-        font-size: 15px;
+        font-size: var(--font-base);
     }
 
     .account-details {
-        padding: 16px;
+        padding: var(--space-4);
+    }
+
+    .company-name {
+        font-size: var(--font-xl);
+    }
+}
+
+@media (max-width: 480px) {
+    .verify-container {
+        margin: var(--space-6) auto;
+    }
+
+    .logo-header {
+        padding: var(--space-6) var(--space-4) var(--space-4);
+    }
+
+    .verify-main {
+        padding: var(--space-6) var(--space-4);
+    }
+
+    .verify-title {
+        font-size: var(--font-xl);
+    }
+
+    .verify-description {
+        font-size: var(--font-sm);
     }
 }

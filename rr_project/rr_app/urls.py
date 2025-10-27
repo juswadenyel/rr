@@ -23,9 +23,9 @@ urlpatterns = [
     
     # Main application URLs
     path('dashboard/', restaurant.dashboard_view, name='dashboard'),
+    path('restaurants/', restaurant.restaurants_view, name='restaurants'),
     path('reservation/manage/', restaurant.reservation_management_view, name='reservation_management'),
     path('restaurant/<int:restaurant_id>/', restaurant.restaurant_detail_view, name='restaurant_detail'),
-    
     # Redirect root to login
     path('', auth.login_view, name='home'),
 ]

@@ -10,8 +10,9 @@ from django import forms
 from django.db.models import Avg, Count
 from datetime import datetime, timedelta
 from django.utils import timezone
+from ..models import Cuisine, Tags
 
-@login_required
+# @login_required
 def dashboard_view(request):
     """User dashboard"""
     user = request.user
@@ -96,4 +97,22 @@ def restaurant_detail_view(request, restaurant_id):
         'reserve_form': reserve_form,
     }
     return render(request, 'rr_app/restaurant/restaurant_detail.html', context)
+
+
+def restaurants_view(request):
+    restaurants = Restaurant.objects.annotate(
+        avg_rating=Avg('reviews__rating'),
+        review_count=Count('reviews')
+    ).select_related().prefetch_related('cuisines', 'tags')
+    
+    # Get all cuisines and tags for filters
+    cuisines = Cuisine.objects.all().order_by('name')
+    tags = Tags.objects.all().order_by('tag')
+    
+    context = {
+        'restaurants': restaurants,
+        'cuisines': cuisines,
+        'tags': tags,
+    }
+    return render(request, 'rr_app/restaurant/restaurants.html', context)
 

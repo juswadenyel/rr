@@ -1,0 +1,161 @@
+{% extends 'rr_app/restaurant/rr_base.html' %}
+{% load static %}
+{% block title %}RR Restaurants{% endblock %}
+
+{% block rr_base_css %}
+<link rel="stylesheet" href="{% static 'rr_app/css/restaurants.css' %}">
+{% endblock %}
+
+{% block rr_base_js %}
+<script src="{% static 'rr_app/js/dashboard/stars.js' %}"></script>
+<script src="{% static 'rr_app/js/dashboard/book.js' %}"></script>
+{% endblock %}
+
+{% block rr_base_content %}
+<div class="main-container">
+
+    <!-- LEFT SIDEBAR -->
+    <div class="left-container">
+        <div class="locationButton">
+            <svg viewBox="0 0 24 24">
+                <path d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5
+                         M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" />
+            </svg>
+            <div>
+                <p>Change location</p>
+                <p id="address">Address</p>
+            </div>
+        </div>
+
+        <!-- CUISINE FILTER -->
+        <div class="cuisines-filter">
+            {% for c in cuisines|slice:":10" %}
+            <label>
+                <input type="checkbox" name="cuisines" value="{{ c.id }}">
+                {{ c.name }}
+            </label>
+            {% endfor %}
+            <p>+ MORE</p>
+        </div>
+
+        <!-- TAG FILTER -->
+        <div class="tags-filter">
+            {% for t in tags|slice:":10" %}
+            <label>
+                <input type="checkbox" name="tags" value="{{ t.id }}">
+                {{ t.tag }}
+            </label>
+            {% endfor %}
+            <p>+ MORE</p>
+        </div>
+
+        <!-- SORTING FILTER -->
+        <div class="filter-by">
+            <label>
+                <input type="checkbox" name="newest" value="1"> Newest
+            </label>
+            <label>
+                <input type="checkbox" name="rating" value="2"> Rating
+            </label>
+            <label>
+                <input type="checkbox" name="bookmarks" value="3"> Bookmarks
+            </label>
+
+            <div class="sort-order">
+                <span>Order:</span>
+                <label>
+                    <input type="radio" name="order" value="asc" checked> Asc
+                </label>
+                <label>
+                    <input type="radio" name="order" value="desc"> Desc
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT CONTENT -->
+    <div class="right-container">
+        <div class="searchbar">
+            <input type="search" placeholder="Search..." />
+            <button aria-label="Search">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                    width="20" height="20" fill="currentColor">
+                    <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 
+                             6.5 6.5 0 109.5 16c1.61 0 3.09-.59 
+                             4.23-1.57l.27.28v.79l5 4.99L20.49 
+                             19l-4.99-5zm-6 0C8.01 14 6 11.99 
+                             6 9.5S8.01 5 10.5 5 15 7.01 15 
+                             9.5 12.99 14 10.5 14z" />
+                </svg>
+            </button>
+        </div>
+
+        <p class="results-count">{{ restaurants|length }} restaurants found</p>
+
+        <div class="restaurants-grid">
+            {% for r in restaurants %}
+            <div class="card" onclick="bookRestaurant('{{ r.id }}')">
+                {% if r.image %}
+                <div class="left" style="background-image: url('{{ r.image.url }}')">
+                {% else %}
+                <div class="left" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3))">
+                {% endif %}
+                </div>
+                
+                <div class="center">
+                    <h3 class="restaurant-name">{{ r.name }}</h3>
+                    <p class="restaurant-cuisines">
+                        {{ r.cuisines.all|join:", " }}
+                    </p>
+
+                    <div class="restaurant-details">
+                        <div class="restaurant-address">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5
+                                       M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" />
+                            </svg>
+                            <span>{{ r.address|default:"Address not available" }}</span>
+                        </div>
+
+                        <div class="restaurant-hours {% if r.is_open_now %}open{% else %}closed{% endif %}">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2
+                                       M16.2,16.2L11,13V7H12.5V12.2L17,14.7L16.2,16.2Z" />
+                            </svg>
+                            <span>
+                                {% if r.is_open_now %}
+                                    Open until {{ r.closing_time|time:"g:i A" }}
+                                {% else %}
+                                    {% if r.opening_time %}
+                                        Opens at {{ r.opening_time|time:"g:i A" }}
+                                    {% else %}
+                                        Hours not available
+                                    {% endif %}
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+
+                    {% if r.tags.all %}
+                    <div class="restaurant-tags">
+                        {% for tag in r.tags.all %}
+                            <span class="restaurant-tag">{{ tag.tag }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <div class="restaurant-rating">
+                        <div class="stars" data-rating="{{ r.avg_rating|default:0 }}"></div>
+                        <span class="rating-text">
+                            {{ r.avg_rating|floatformat:1 }} ({{ r.review_count|default:0 }})
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

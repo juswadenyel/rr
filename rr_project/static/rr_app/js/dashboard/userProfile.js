@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const handleLogout = () => {
         window.MessageBox.showConfirm('Are you sure you want to logout?', () => {
-            window.ApiCaller.auth.signOut(() => window.MessageBox.hide());
+            window.ApiCaller.auth.signOut();
         });
     };
 

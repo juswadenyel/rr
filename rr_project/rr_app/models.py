@@ -84,11 +84,12 @@ class Restaurant(models.Model):
         related_name='restaurants',
         blank=True
     )
-    cuisine_type = models.CharField(max_length=50)
     price = models.DecimalField(max_digits=8, decimal_places=2)
     image = models.ImageField(upload_to='restaurants/', blank=True, null=True)
     description = models.TextField()
     max_guest_count = models.IntegerField()
+    opening_time = models.TimeField(null=True, blank=True, help_text="Restaurant opening time")
+    closing_time = models.TimeField(null=True, blank=True, help_text="Restaurant closing time")
     created_at = models.DateTimeField(auto_now_add=True)
     
     class Meta:
@@ -96,7 +97,34 @@ class Restaurant(models.Model):
 
     def __str__(self):
         return self.name
+    
+    @property
+    def is_open_now(self):
+        """Check if restaurant is currently open"""
+        if not self.opening_time or not self.closing_time:
+            return False
+        
+        current_time = timezone.now().time()
+        
+        # Handle cases where restaurant closes after midnight
+        if self.closing_time < self.opening_time:
+            # e.g., opens at 18:00, closes at 02:00 next day
+            return current_time >= self.opening_time or current_time <= self.closing_time
+        else:
+            # Normal case: opens and closes on same day
+            return self.opening_time <= current_time <= self.closing_time
 
+class Cuisine(models.Model):
+    name = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    restaurant = models.ManyToManyField(Restaurant,
+                related_name="cuisines")
+    
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.name
 
 class Reservation(models.Model):
     customer = models.ForeignKey(

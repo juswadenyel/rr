@@ -76,8 +76,9 @@ def restaurant_detail_view(request, restaurant_id):
                 reservation = reserve_form.save(commit=False)
                 reservation.customer = customer
                 reservation.restaurant = restaurant
+                reservation.save()
 
-                messages.success(request, f'Reservation is successful. You will receive an email.')
+                messages.success(request, f'You will receive an email once your reservation has been confirmed')
                 return redirect('rr_app:restaurant_detail', restaurant_id=restaurant.id)
             except Exception as e:
                 messages.error(request, f'An error occured during reservation: {str(e)}')

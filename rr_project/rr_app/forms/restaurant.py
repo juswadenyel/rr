@@ -4,7 +4,7 @@ from django import forms
 class ReservationForm(forms.ModelForm):
     class Meta:
         model = Reservation
-        fields = ['name', 'email', 'guest_count', 'date', 'time', 'notes']
+        fields = ['name', 'email', 'guest_count', 'date', 'time', 'notes', 'table_numbers']
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Your Name'}),
             'email': forms.EmailInput(attrs={'placeholder': 'Email Address'}),
@@ -12,6 +12,10 @@ class ReservationForm(forms.ModelForm):
             'date': forms.DateInput(attrs={'type': 'date'}),
             'time': forms.TimeInput(attrs={'type': 'time'}),
             'notes': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Any dietary restrictions, special occasions, or other requests...'}),
+            'table_numbers': forms.HiddenInput(attrs={
+                'id': 'table_num'
+            })
+
         }
     def __init__(self, *args, **kwargs):
         restaurant = kwargs.pop('restaurant', None)  # expect restaurant to be passed

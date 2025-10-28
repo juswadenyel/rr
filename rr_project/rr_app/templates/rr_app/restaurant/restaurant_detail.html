@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@400;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'rr_app/css/restaurant_detail.css' %}">
+<link rel="stylesheet" href="{% static 'rr_app/css/notifications.css' %}">
 {% endblock %}
 
 {% block rr_base_content %}
@@ -325,6 +326,7 @@
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"/>
                         </svg>
+                        {{ reserve_form.table_number }}
                         <span id="table-status">No table selected</span>
                     </div>
                 </div>
@@ -357,6 +359,7 @@
 {% endblock %}
 
 {% block rr_base_js %}
+<script src="{% static 'rr_app/js/util/Notifications.js' %}"></script>
 <script src="{% static 'rr_app/js/restaurant_detail.js' %}"></script>
 <script src="{% static 'rr_app/js/dashboard/stars.js' %}"></script>
 {% endblock %}

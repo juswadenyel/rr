@@ -251,6 +251,13 @@ body::before {
   font-family: var(--font-primary);
 }
 
+.container form button.btn_submit:disabled {
+  background: var(--color-gray-400);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
 .container form input[type="button"]:hover,
 .container form button.btn_submit:hover,
 .container form .btn_submit:hover {

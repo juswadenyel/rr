@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
+from django.contrib.postgres.fields import ArrayField
 import uuid
 import random
 import string
@@ -140,7 +141,11 @@ class Reservation(models.Model):
     date = models.DateField()
     time = models.TimeField()
     notes = models.TextField(blank=True, null=True)
-    table_number = models.IntegerField(null=True, blank=True)
+    table_numbers = ArrayField(
+        models.CharField(),
+        blank=True,
+        default=list
+    )
     status = models.CharField(
         max_length=20,
         choices=[

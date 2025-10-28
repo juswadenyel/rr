@@ -2,7 +2,6 @@
 
 document.addEventListener('DOMContentLoaded', function () {
     initializeTableSelection();
-    initializeReservationForm();
 });
 
 // Table Selection System
@@ -57,8 +56,10 @@ function initializeTableSelection() {
 
         // Update input
         if (selectedTableInput) selectedTableInput.value = selectedTables.map(t => t.number).join(',');
-        if (tableNum) tableNum.value = selectedTables.map(t => t.number).join(',');
-
+        if (tableNum){
+            tableNum.value = selectedTables.map(t => t.number).join(',');
+            console.log("table numbers", tableNum.value);
+        }
         // Update table status
         if (tableStatusElement) {
             if (tableCount > 0) {

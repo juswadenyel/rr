@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-xs_w$!5xmj-6!gk+(y6n*6j%x^+ay&xz71qjqx*amkp#1i^4s0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['rr-serv.onrender.com']
+ALLOWED_HOSTS = ['restores.onrender.com']
 
 # Media
 MEDIA_URL = '/media/'
